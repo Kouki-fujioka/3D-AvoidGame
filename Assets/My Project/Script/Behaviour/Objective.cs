@@ -6,7 +6,7 @@ namespace Unity.Game.Behaviour
 {
     public class Objective : IObjective
     {
-        //public Trigger m_Trigger;
+        public Trigger m_Trigger;
         public string m_Title { get; set; }
         public string m_Description { get; set; }
         public ObjectiveProgressType m_ProgressType { get; set; }
@@ -26,24 +26,25 @@ namespace Unity.Game.Behaviour
 
                 case ObjectiveProgressType.Amount:
                     {
-                        //return m_Trigger.Progress + "/" + m_Trigger.Goal;
+                        return m_Trigger.Progress + "/" + m_Trigger.Goal;
                         return string.Empty;
                     }
 
                 case ObjectiveProgressType.Time:
                     {
-                        //var seconds = m_Trigger.Goal - m_Trigger.Progress;
-                        //var minutes = seconds / 60;
-                        //seconds -= 60 * minutes;
+                        var seconds = m_Trigger.Goal - m_Trigger.Progress;
+                        var minutes = seconds / 60;
+                        seconds -= 60 * minutes;
 
-                        //if (minutes > 0)
-                        //{
-                        //    return minutes.ToString() + ":" + seconds.ToString("D2");
-                        //}
-                        //else
-                        //{
-                        //    return seconds.ToString();
-                        //}
+                        if (minutes > 0)
+                        {
+                            return minutes.ToString() + ":" + seconds.ToString("D2");
+                        }
+                        else
+                        {
+                            return seconds.ToString();
+                        }
+
                         return string.Empty;
                     }
             }
@@ -56,15 +57,15 @@ namespace Unity.Game.Behaviour
             evt.Objective = this;
             EventManager.Broadcast(evt);
 
-            //if (m_Trigger)
-            //{
-            //    m_Trigger.OnProgress += Progress;
-            //    m_Trigger.OnActive += Activate;
-            //}
-            //else
-            //{
-            //    Activate();
-            //}
+            if (m_Trigger)
+            {
+                m_Trigger.OnProgress += Progress;
+                m_Trigger.OnActive += Activate;
+            }
+            else
+            {
+                Activate();
+            }
         }
 
         void Progress()
