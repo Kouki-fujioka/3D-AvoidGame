@@ -132,8 +132,7 @@ namespace Unity.Game.Behaviour
             // Check if the player was hit.
             if (Deadly && collision.collider.gameObject.CompareTag("Player"))   // 接触したコライダ（ゲームオブジェクト）のタグが Player の場合
             {
-                // If the player is a minifig or a brick, do an explosion.
-                var minifigController = collision.collider.GetComponent<MinifigController>();   // MinifigController コンポーネントを取得
+                var minifigController = collision.collider.GetComponent<PlayerController>();
 
                 if (minifigController)  // MinifigController コンポーネントが存在する場合
                 {
