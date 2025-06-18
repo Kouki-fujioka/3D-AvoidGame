@@ -1,26 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Game.Behaviours.Triggers;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Unity.Game.Behaviour.Action
+namespace Unity.Game.Behaviours.Actions
 {
     public abstract class Action : MonoBehaviour
     {
-        [
-            SerializeField,
-            Tooltip("The audio clip used by the Behaviour.")
-        ]
-        protected AudioClip m_Audio;
-
-        [
-            SerializeField,
-            Range(0.0f, 1.0f),
-            Tooltip("The volume of the audio.")
-        ]
-        protected float m_AudioVolume = 1.0f;
+        [SerializeField, Tooltip("The audio clip used by the Behaviour.")] protected AudioClip m_Audio;
+        [SerializeField, Range(0.0f, 1.0f), Tooltip("The volume of the audio.")] protected float m_AudioVolume = 1.0f;
 
         protected bool m_Active;
         readonly List<AudioSource> m_AudioSourcesToDestroy = new List<AudioSource>();
@@ -74,7 +65,7 @@ namespace Unity.Game.Behaviour.Action
                     go.transform.parent = transform;
                 }
 
-                go.transform.position = transform.position + transform.TransformVector(m_ScopedPivotOffset);
+                go.transform.position = transform.position;
                 AudioSource audioSource = go.AddComponent<AudioSource>();
                 audioSource.clip = m_Audio;
                 audioSource.loop = loop;

@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.Game.Behaviours.Triggers;
 
-namespace Unity.Game.Behaviour.Action
+namespace Unity.Game.Behaviours.Actions
 {
     public abstract class ObjectiveAction : Action
     {

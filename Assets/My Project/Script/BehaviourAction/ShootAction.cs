@@ -1,45 +1,15 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace Unity.Game.Behaviour.Action
+namespace Unity.Game.Behaviours.Actions
 {
     public class ShootAction : RepeatableAction
     {
-        [
-            SerializeField,
-            Tooltip("The projectile to launch.")
-        ]
-        GameObject m_Bullet = null;
-
-        [SerializeField]
-        Transform m_ShootPoint = null;
-
-        [
-            SerializeField,
-            Range(1, 100),
-            Tooltip("The velocity of the projectiles.")
-        ]
-        float m_Velocity = 25f;
-
-        [
-            SerializeField,
-            Range(0, 100),
-            Tooltip("The accuracy in percent.")
-        ]
-        int m_Accuracy = 90;
-
-        [
-            SerializeField,
-            Tooltip("The time in seconds before projectiles disappears.")
-        ]
-        float m_Lifetime = 2f;
-
-        [
-            SerializeField,
-            Tooltip("Projectiles are affected by gravity.")
-        ]
-        bool m_UseGravity = true;
+        [SerializeField, Tooltip("The projectile to launch.")] GameObject m_Bullet = null;
+        [SerializeField] Transform m_ShootPoint = null;
+        [SerializeField, Range(1, 100), Tooltip("The velocity of the projectiles.")] float m_Velocity = 25f;
+        [SerializeField, Range(0, 100), Tooltip("The accuracy in percent.")] int m_Accuracy = 90;
+        [SerializeField, Tooltip("The time in seconds before projectiles disappears.")] float m_Lifetime = 2f;
+        [SerializeField, Tooltip("Projectiles are affected by gravity.")] bool m_UseGravity = true;
 
         float m_Time;
         bool m_HasFired;

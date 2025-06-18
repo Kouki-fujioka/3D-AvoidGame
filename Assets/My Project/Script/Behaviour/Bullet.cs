@@ -2,45 +2,26 @@ using UnityEngine;
 //using System.Collections.Generic;
 using Unity.Game.Player;
 
-namespace Unity.Game.Behaviour
+namespace Unity.Game.Behaviours
 {
     [RequireComponent(typeof(Rigidbody))]
 
     public class Bullet : MonoBehaviour
     {
-        [
-            SerializeField,
-            Range(0.0f, 1080.0f),
-            Tooltip("The rotation speed in degrees per second.")
-        ]
-        float m_RotationSpeed = 0.0f;
+        [SerializeField, Range(0.0f, 1080.0f), Tooltip("The rotation speed in degrees per second.")] float m_RotationSpeed = 0.0f;
 
         public bool Deadly { get; private set; } = true;
-
         Rigidbody m_RigidBody;
         CapsuleCollider m_Collider;
         ParticleSystem m_ParticleSystem;
         bool m_Rotate;
         Vector3 m_Rotation;
-        //List<Collider> m_IgnoredColliders;
         bool m_Launched;
-
-        //public void Init(Collider collider, float velocity, bool useGravity, float time)
-        //{
-        //    m_RigidBody.linearVelocity = transform.forward * velocity;
-        //    m_RigidBody.useGravity = useGravity;
-        //    m_IgnoredColliders = new List<Collider>();
-        //    Physics.IgnoreCollision(m_Collider, collider, true);
-        //    m_IgnoredColliders.Add(collider);
-        //    Destroy(gameObject, time);
-        //}
 
         public void Init(float velocity, bool useGravity, float time)
         {
             m_RigidBody.linearVelocity = transform.forward * velocity;
             m_RigidBody.useGravity = useGravity;
-            //m_IgnoredColliders = new List<Collider>();
-            //m_IgnoredColliders.Add(collider);
             Destroy(gameObject, time);
         }
 

@@ -1,10 +1,10 @@
 using System;
-using UnityEditor;
 using UnityEngine;
+using Unity.Game.Behaviours.Triggers;
 
-namespace Unity.Game.Behaviour
+namespace Unity.Game.Behaviours
 {
-    public class Objective : IObjective
+    public class Objective : MonoBehaviour, IObjective
     {
         public Trigger m_Trigger;
         public string m_Title { get; set; }
@@ -27,7 +27,6 @@ namespace Unity.Game.Behaviour
                 case ObjectiveProgressType.Amount:
                     {
                         return m_Trigger.Progress + "/" + m_Trigger.Goal;
-                        return string.Empty;
                     }
 
                 case ObjectiveProgressType.Time:
@@ -44,10 +43,9 @@ namespace Unity.Game.Behaviour
                         {
                             return seconds.ToString();
                         }
-
-                        return string.Empty;
                     }
             }
+
             return string.Empty;
         }
 
@@ -60,7 +58,7 @@ namespace Unity.Game.Behaviour
             if (m_Trigger)
             {
                 m_Trigger.OnProgress += Progress;
-                m_Trigger.OnActive += Activate;
+                m_Trigger.OnActivate += Activate;
             }
             else
             {

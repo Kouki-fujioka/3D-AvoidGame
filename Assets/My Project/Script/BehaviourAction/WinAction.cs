@@ -1,6 +1,6 @@
-using Unity.Game;
+using Unity.Game.Behaviours.Triggers;
 
-namespace Unity.Game.Behaviour.Action
+namespace Unity.Game.Behaviours.Actions
 {
     public class WinAction : ObjectiveAction
     {

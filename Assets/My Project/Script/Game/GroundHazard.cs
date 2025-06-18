@@ -1,4 +1,3 @@
-using Unity.Game;
 using UnityEngine;
 
 namespace Unity.Game

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Game.Behaviour
+namespace Unity.Game.Behaviours
 {
     [Serializable]
     public class ObjectiveConfiguration
