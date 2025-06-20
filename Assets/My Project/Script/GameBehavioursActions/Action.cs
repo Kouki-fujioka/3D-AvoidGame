@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Game.Behaviours.Triggers;
+
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
@@ -76,7 +77,7 @@ namespace Unity.Game.Behaviours.Actions
                 if (spatial)
                 {
                     audioSource.spatialBlend = 1.0f;
-                    var minDistance = scopeDeterminesDistance ? Mathf.Max(5.0f, m_ScopedBounds.extents.magnitude) : 5.0f;
+                    var minDistance = scopeDeterminesDistance ? Mathf.Max(5.0f, transform.localScale.x) : 5.0f;
                     var maxDistance = minDistance + k_AudioRange;
                     var minRatio = minDistance / maxDistance;
                     audioSource.maxDistance = maxDistance;

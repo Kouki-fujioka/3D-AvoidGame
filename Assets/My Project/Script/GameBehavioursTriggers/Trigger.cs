@@ -12,11 +12,23 @@ namespace Unity.Game.Behaviours.Triggers
         public int Progress;
         public int Goal;
 
-        [SerializeField, Tooltip("Trigger actions on connected bricks.\nor\nTrigger a list of specific actions.")] protected Action m_Target;
         [SerializeField, Tooltip("The list of actions to trigger."), NonReorderable] protected List<Action> m_SpecificTargetActions = new List<Action>();
         [SerializeField, Tooltip("Trigger continuously.")] protected bool m_Repeat = true;
 
+        protected HashSet<Action> m_TargetedActions = new HashSet<Action>();
         protected bool m_AlreadyTriggered;
+
+        protected virtual void Awake()
+        {
+            m_TargetedActions = GetTargetedActions();
+        }
+
+        public HashSet<Action> GetTargetedActions()
+        {
+            var result = new HashSet<Action>();
+            result.UnionWith(m_SpecificTargetActions);
+            return result;
+        }
 
         protected void ConditionMet()
         {
@@ -24,14 +36,22 @@ namespace Unity.Game.Behaviours.Triggers
             {
                 List<Action> winAndLoseActions = new List<Action>();
 
-                if (m_Target)
+                foreach (var action in m_TargetedActions)
                 {
-                    m_Target.Activate();
-
-                    if (m_Target is ObjectiveAction)
+                    if (action)
                     {
-                        winAndLoseActions.Add(m_Target);
+                        action.Activate();
+
+                        if (action is ObjectiveAction)
+                        {
+                            winAndLoseActions.Add(action);
+                        }
                     }
+                }
+
+                foreach (var action in winAndLoseActions)
+                {
+                    m_TargetedActions.Remove(action);
                 }
 
                 OnActivate?.Invoke();
