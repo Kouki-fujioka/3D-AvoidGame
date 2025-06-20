@@ -4,7 +4,7 @@ namespace Unity.Game.Behaviours.Actions
 {
     public abstract class RepeatableAction : Action
     {
-        [SerializeField, Tooltip("The pause in seconds between each repetition.")] protected float m_Pause = 1.0f;
+        [SerializeField, Tooltip("The pause in seconds between each repetition.")] protected float m_Pause = 0.25f;
         [SerializeField, Tooltip("Repeat this Behaviour continuously.")] protected bool m_Repeat = true;
 
         protected virtual void OnValidate()
