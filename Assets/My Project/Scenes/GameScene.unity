@@ -298,6 +298,8 @@ GameObject:
   - component: {fileID: 58330668}
   - component: {fileID: 58330670}
   - component: {fileID: 58330671}
+  - component: {fileID: 58330673}
+  - component: {fileID: 58330672}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -365,6 +367,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7e1fd56a6b78d43852b54e5cf7474a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &58330672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58330667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3d98df4d7cb4741890185270e91cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Progress: 0
+  Goal: 0
+  m_SpecificTargetActions:
+  - {fileID: 58330673}
+  m_Repeat: 0
+  m_Time: 30
+--- !u!114 &58330673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58330667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 914f7dc84f402ce4c8ffa99de776e2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Audio: {fileID: 8300000, guid: 4b8dc171ea53e4e9a9888deeadb024a1, type: 3}
+  m_AudioVolume: 1
+  m_ObjectiveConfigurations:
+  - Title: Survive
+    Description: Avoid Bullets
+    ProgressType: 2
+    Lose: 0
+    Hidden: 0
+  m_Triggers:
+  - {fileID: 58330672}
 --- !u!1 &71392262
 GameObject:
   m_ObjectHideFlags: 0
