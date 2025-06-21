@@ -209,23 +209,24 @@ namespace Unity.Game.Player
             animator.SetFloat(speedHash, speed);
             animator.SetBool(groundHash, !airborne);
 
-            //if (currentBaseState.fullPathHash == locoState)
-            //{
-            //    if (useCurves)
-            //    {
-            //        resetCollider();
-            //    }
-            //}
-            //else if (currentBaseState.fullPathHash == jumpState)
-            //{
-            //    if (useCurves)
-            //    {
-            //        var jumpHeight = animator.GetFloat(jumpHeightHash);   // JumpHeight → アニメーション (JUMP00) から設定
-            //        var adjustCenterY = orgVectColCenter.y + jumpHeight;
-            //        controller.height = orgColHight - jumpHeight;
-            //        controller.center = new Vector3(0, adjustCenterY, 0);
-            //    }
-            //}
+            if (currentBaseState.fullPathHash == locoState) // 地上アニメーション
+            {
+                if (useCurves)
+                {
+                    resetCollider();
+                }
+            }
+            else
+            {
+                //if (useCurves)
+                //{
+                //    // 足の座標は"B-toe.R or B-toe.L"の座標を用いる
+                //    // 頭部の座標は"B-jaw"の座標を用いる
+                //    var adjustCenterY = orgVectColCenter.y + jumpHeight;
+                //    controller.height = orgColHight - jumpHeight;
+                //    controller.center = new Vector3(0, adjustCenterY, 0);
+                //}
+            }
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)
