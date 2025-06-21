@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem.XR;
@@ -20,7 +21,7 @@ namespace Unity.Game.Player
         [SerializeField, Tooltip("跳躍力")] float jumpPower = 20.0f;
         [SerializeField, Tooltip("加速度")] float acceleration = 40.0f;
         [SerializeField, Tooltip("重力")] float gravity = 40.0f;
-        [SerializeField, Range(0, 2), Tooltip("跳躍可能回数 (空中)")] int maxJumpsInAir = 1;
+        [SerializeField, Range(0, 1), Tooltip("跳躍可能回数 (空中)")] int maxJumpsInAir = 0;
 
         AnimatorStateInfo currentBaseState; // 現アニメーション
         Vector3 directVelocity;    // 現速度 (カメラ基準)
@@ -35,9 +36,14 @@ namespace Unity.Game.Player
         bool airborne;  // 空中
         bool GameIsEnding;  // ゲーム終了
 
-        // 参照
+        [Header("参照")]
+        [SerializeField, Tooltip("ステップオーディオ")] AudioClip stepAudioClip;
+        [SerializeField, Tooltip("ジャンプオーディオ")] AudioClip jumpAudioClip;
+        [SerializeField, Tooltip("着地オーディオ")] AudioClip landAudioClip;
+
         Animator animator;
         CharacterController controller;
+        AudioSource audioSource;
         Transform ground;
         static readonly int speedHash = Animator.StringToHash("Speed");
         static readonly int groundHash = Animator.StringToHash("Ground");
@@ -53,6 +59,7 @@ namespace Unity.Game.Player
             EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ブロードキャスト時に OnGameOver 実行
             animator = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
+            audioSource = GetComponent<AudioSource>();
             orgColHight = controller.height;
             orgVectColCenter = controller.center;
             animator.speed = animatorSpeed;
@@ -144,18 +151,18 @@ namespace Unity.Game.Player
                         {
                             jumpsInAir--;
 
-                            //if (jumpAudioClip)
-                            //{
-                            //    audioSource.PlayOneShot(jumpAudioClip);
-                            //}
+                            if (jumpAudioClip)
+                            {
+                                audioSource.PlayOneShot(jumpAudioClip);
+                            }
                         }
-                        //else
-                        //{
-                        //    if (jumpAudioClip)
-                        //    {
-                        //        audioSource.PlayOneShot(jumpAudioClip);
-                        //    }
-                        //}
+                        else
+                        {
+                            if (jumpAudioClip)
+                            {
+                                audioSource.PlayOneShot(jumpAudioClip);
+                            }
+                        }
 
                         moveDelta.y = jumpPower;
                         animator.SetTrigger(jumpHash);
@@ -195,13 +202,13 @@ namespace Unity.Game.Player
                 moveDelta.y = 0.0f;
                 airborneTime = 0.0f;
 
-                //if (moveDelta.y < -5.0f)
-                //{
-                //    if (landAudioClip)
-                //    {
-                //        audioSource.PlayOneShot(landAudioClip);
-                //    }
-                //}
+                if (moveDelta.y < -5.0f)
+                {
+                    if (landAudioClip)
+                    {
+                        audioSource.PlayOneShot(landAudioClip);
+                    }
+                }
             }
 
             airborne = airborneTime >= coyoteDelay;
