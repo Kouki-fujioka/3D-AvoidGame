@@ -8,6 +8,9 @@ namespace Unity.Game.Player
     public class PlayerController : MonoBehaviour
     {
         [Header("参照")]
+        //[SerializeField, Tooltip("頭")] Transform head;
+        //[SerializeField, Tooltip("右足")] Transform footR;
+        //[SerializeField, Tooltip("左足")] Transform footL;
         [SerializeField, Tooltip("ステップオーディオ")] AudioClip stepAudioClip;
         [SerializeField, Tooltip("ジャンプオーディオ")] AudioClip jumpAudioClip;
         [SerializeField, Tooltip("着地オーディオ")] AudioClip landAudioClip;
@@ -15,7 +18,7 @@ namespace Unity.Game.Player
 
         [Header("データ")]
         [SerializeField, Tooltip("アニメーション再生速度")] float animatorSpeed = 1.5f;
-        [SerializeField, Tooltip("跳躍時のコライダ調整")] bool useCurves = true;
+        //[SerializeField, Tooltip("跳躍時のコライダ調整")] bool useCurves = true;
         [SerializeField, Tooltip("入力状態")] bool inputEnabled = true;
         [SerializeField, Tooltip("前進速度")] float forwardSpeed = 13.0f;
         [SerializeField, Tooltip("後退速度")] float backwardSpeed = 6.0f;
@@ -27,12 +30,12 @@ namespace Unity.Game.Player
 
         AnimatorStateInfo currentBaseState; // 現アニメーション
         Vector3 directVelocity;    // 現速度 (カメラ基準)
-        Vector3 orgVectColCenter;   // コライダ初期値 (中心)
+        //Vector3 orgVectColCenter;   // コライダ初期値 (中心位置)
         Vector3 moveDelta;  // 移動量
         int jumpsInAir; // ジャンプ可能回数
         const float coyoteDelay = 0.1f; // コヨーテタイム
         float airborneTime; // 滞空時間
-        float orgColHight;  // コライダ初期値 (高さ)
+        //float orgColHight;  // コライダ初期値 (高さ)
         float directRotate; // 現回転速度 (カメラ基準)
         float speed;    // 速さ
         bool stepped;   // 踏み出しフラグ
@@ -47,7 +50,7 @@ namespace Unity.Game.Player
         static readonly int jumpHash = Animator.StringToHash("Jump");
         static readonly int danceHash = Animator.StringToHash("Dance");
         static readonly int deathHash = Animator.StringToHash("Death");
-        static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
+        //static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
 
         void Awake()
         {
@@ -55,8 +58,15 @@ namespace Unity.Game.Player
             animator = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
             audioSource = GetComponent<AudioSource>();
-            orgColHight = controller.height;
-            orgVectColCenter = controller.center;
+            //var footCenterWorld = (footR.position + footL.position) * 0.5f;
+            //var localHead = transform.InverseTransformPoint(head.position);
+            //var localFoot = transform.InverseTransformPoint(footCenterWorld);
+            //var center = (localHead + localFoot) * 0.5f;
+            //var height = Mathf.Abs(localHead.y - localFoot.y);
+            //controller.center = center;
+            //controller.height = height;
+            //orgVectColCenter = controller.center;
+            //orgColHight = controller.height;
             animator.speed = animatorSpeed;
             animator.SetBool(groundHash, true);
         }
@@ -215,11 +225,11 @@ namespace Unity.Game.Player
         /// <summary>
         /// コライダ初期化
         /// </summary>
-        void resetCollider()
-        {
-            controller.height = orgColHight;
-            controller.center = orgVectColCenter;
-        }
+        //void resetCollider()
+        //{
+        //    controller.height = orgColHight;
+        //    controller.center = orgVectColCenter;
+        //}
 
         /// <summary>
         /// プレイヤアニメーション更新
@@ -230,24 +240,26 @@ namespace Unity.Game.Player
             animator.SetFloat(speedHash, speed);
             animator.SetBool(groundHash, !airborne);
 
-            if (currentBaseState.fullPathHash == locoState) // 地上アニメーション
-            {
-                if (useCurves)
-                {
-                    resetCollider();
-                }
-            }
-            else
-            {
-                //if (useCurves)
-                //{
-                //    // 足の座標は"B-toe.R or B-toe.L"の座標を用いる
-                //    // 頭部の座標は"B-jaw"の座標を用いる
-                //    var adjustCenterY = orgVectColCenter.y + jumpHeight;
-                //    controller.height = orgColHight - jumpHeight;
-                //    controller.center = new Vector3(0, adjustCenterY, 0);
-                //}
-            }
+            //if (currentBaseState.fullPathHash == locoState) // 地上アニメーション
+            //{
+            //    if (useCurves)
+            //    {
+            //        resetCollider();
+            //    }
+            //}
+            //else
+            //{
+            //    if (useCurves)
+            //    {
+            //        var footCenterWorld = (footR.position + footL.position) * 0.5f;
+            //        var localHead = transform.InverseTransformPoint(head.position);
+            //        var localFoot = transform.InverseTransformPoint(footCenterWorld);
+            //        var center = (localHead + localFoot) * 0.5f;
+            //        var height = Mathf.Abs(localHead.y - localFoot.y);
+            //        controller.center = center;
+            //        controller.height = height;
+            //    }
+            //}
         }
 
         /// <summary>
