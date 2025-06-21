@@ -37,8 +37,9 @@ namespace Unity.Game.Player
         CharacterController controller;
         Transform ground;
         static readonly int speedHash = Animator.StringToHash("Speed");
-        static readonly int jumpHash = Animator.StringToHash("Jump");
         static readonly int groundHash = Animator.StringToHash("Ground");
+        static readonly int jumpHash = Animator.StringToHash("Jump");
+        static readonly int deathHash = Animator.StringToHash("Death");
         static readonly int jumpHeightHash = Animator.StringToHash("JumpHeight");
         static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
         static readonly int jumpState = Animator.StringToHash("Base Layer.Jump");
@@ -227,6 +228,13 @@ namespace Unity.Game.Player
                 //    controller.center = new Vector3(0, adjustCenterY, 0);
                 //}
             }
+        }
+
+        // プレイヤ死亡
+        public void Death()
+        {
+            animator.SetTrigger(deathHash);
+            inputEnabled = false;
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)

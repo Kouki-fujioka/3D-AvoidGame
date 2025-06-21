@@ -87,19 +87,10 @@ namespace Unity.Game.Behaviours
             {
                 var playerController = collision.collider.GetComponent<PlayerController>();
 
-                //if (playerController)
-                //{
-                //    playerController.Explode();    // プレイヤ (Player Minifig) を爆発
-                //}
-                //else
-                //{
-                //    var brick = collision.collider.GetComponentInParent<Brick>();
-
-                //    if (brick)
-                //    {
-                //        BrickExploder.ExplodeConnectedBricks(brick);    // ブロック群を爆発
-                //    }
-                //}
+                if (playerController)
+                {
+                    playerController.Death();
+                }
 
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
