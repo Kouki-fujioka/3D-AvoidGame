@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Bullet
+  - Arrow
   layers:
   - Default
   - TransparentFX
@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Player
   - Environment
-  - Bullet
+  - Arrow
   - 
   - 
   - 

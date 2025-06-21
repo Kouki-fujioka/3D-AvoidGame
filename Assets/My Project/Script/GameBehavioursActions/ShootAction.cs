@@ -1,10 +1,11 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace Unity.Game.Behaviours.Actions
 {
     public class ShootAction : RepeatableAction
     {
-        [SerializeField, Tooltip("The projectile to launch.")] GameObject m_Bullet = null;
+        [SerializeField, Tooltip("The projectile to launch.")] GameObject m_Arrow = null;
         [SerializeField] Transform m_ShootPoint = null;
         [SerializeField, Range(1, 100), Tooltip("The velocity of the projectiles.")] float m_Velocity = 25f;
         [SerializeField, Range(0, 100), Tooltip("The accuracy in percent.")] int m_Accuracy = 65;
@@ -19,6 +20,11 @@ namespace Unity.Game.Behaviours.Actions
             base.OnValidate();
             m_Lifetime = Mathf.Max(1.0f, m_Lifetime);   // ÉvÉçÉWÉFÉNÉgÉ^ÉCÉãè¡ñ≈éûä‘
             m_Pause = Mathf.Max(0.25f, m_Pause);    // ÉäÉsÅ[Égä‘äuÇí≤êÆ
+        }
+
+        protected void Awake()
+        {
+            EventManager.AddListener<GameOverEvent>(OnGameOver);
         }
 
         protected void Update()
@@ -44,14 +50,14 @@ namespace Unity.Game.Behaviours.Actions
 
         void Fire()
         {
-            if (m_Bullet)
+            if (m_Arrow)
             {
-                var accuracyToDegrees = 90.0f - 90.0f * m_Accuracy / 100.0f;    // ägéUäpìxÇåvéZ
+                var accuracyToDegrees = 90.0f - 90.0f * m_Accuracy / 100.0f;    // ägéUäpìx
                 var randomSpread = Random.insideUnitCircle * Mathf.Tan(accuracyToDegrees * Mathf.Deg2Rad * 0.5f);   // ÅH
-                var projectilePosition = m_ShootPoint.position; // î≠éÀínì_Çäiî[
-                var projectileRotation = m_ShootPoint.rotation; // î≠éÀäpìxÇäiî[
-                var go = Instantiate(m_Bullet, projectilePosition, projectileRotation);
-                var projectile = go.GetComponent<Bullet>();
+                var projectilePosition = m_ShootPoint.position; // î≠éÀínì_
+                var projectileRotation = m_ShootPoint.rotation * Quaternion.LookRotation(Vector3.forward + Vector3.right * randomSpread.x + Vector3.up * randomSpread.y);   // î≠éÀäpìx
+                var go = Instantiate(m_Arrow, projectilePosition, projectileRotation);
+                var projectile = go.GetComponent<Arrow>();
 
                 if (projectile)
                 {
@@ -60,6 +66,17 @@ namespace Unity.Game.Behaviours.Actions
 
                 PlayAudio();
             }
+        }
+
+        void OnGameOver(GameOverEvent evt)
+        {
+            m_Repeat = false;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver);
         }
     }
 }
