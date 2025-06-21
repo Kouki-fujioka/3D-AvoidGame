@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Unity.Game.Player
 {
@@ -17,6 +18,7 @@ namespace Unity.Game.Player
         [SerializeField, Tooltip("跳躍力")] float jumpPower = 20.0f;
         [SerializeField, Tooltip("加速度")] float acceleration = 40.0f;
         [SerializeField, Tooltip("重力")] float gravity = 40.0f;
+        [SerializeField, Range(0, 2), Tooltip("跳躍可能回数 (空中)")] int maxJumpsInAir = 1;
 
         AnimatorStateInfo currentBaseState; // 現アニメーション
         Vector3 directVelocity;    // 現速度 (カメラ基準)
@@ -24,6 +26,7 @@ namespace Unity.Game.Player
         Vector3 moveDelta;  // 移動量
         const float coyoteDelay = 0.1f; // コヨーテタイム
         float airborneTime; // 滞空時間
+        int jumpsInAir; // ジャンプ可能回数
         float orgColHight;  // コライダ初期値 (高さ)
         float directRotate; // 現回転速度 (カメラ基準)
         float speed;    // 速さ
@@ -35,6 +38,7 @@ namespace Unity.Game.Player
         Transform ground;
         static readonly int speedHash = Animator.StringToHash("Speed");
         static readonly int jumpHash = Animator.StringToHash("Jump");
+        static readonly int groundHash = Animator.StringToHash("Ground");
         static readonly int jumpHeightHash = Animator.StringToHash("JumpHeight");
         static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
         static readonly int jumpState = Animator.StringToHash("Base Layer.Jump");
@@ -46,6 +50,7 @@ namespace Unity.Game.Player
             orgColHight = controller.height;
             orgVectColCenter = controller.center;
             animator.speed = animatorSpeed;
+            animator.SetBool(groundHash, true);
         }
 
         void Update()
@@ -120,13 +125,36 @@ namespace Unity.Game.Player
 
                 moveDelta = new Vector3(directVelocity.x, moveDelta.y, directVelocity.z);
 
+                if (!airborne)
+                {
+                    jumpsInAir = maxJumpsInAir;
+                }
+
                 if (Input.GetButtonDown("Jump"))    // スペースキー
                 {
-                    if (!airborne)  // 地上
+                    if (!airborne || jumpsInAir > 0)  // 地上
                     {
+                        if (airborne)
+                        {
+                            jumpsInAir--;
+
+                            //if (jumpAudioClip)
+                            //{
+                            //    audioSource.PlayOneShot(jumpAudioClip);
+                            //}
+                        }
+                        //else
+                        //{
+                        //    if (jumpAudioClip)
+                        //    {
+                        //        audioSource.PlayOneShot(jumpAudioClip);
+                        //    }
+                        //}
+
                         moveDelta.y = jumpPower;
                         animator.SetTrigger(jumpHash);
                         airborne = true;
+                        airborneTime = coyoteDelay;
                     }
                 }
 
@@ -153,6 +181,14 @@ namespace Unity.Game.Player
             {
                 moveDelta.y = 0.0f;
                 airborneTime = 0.0f;
+
+                //if (moveDelta.y < -5.0f)
+                //{
+                //    if (landAudioClip)
+                //    {
+                //        audioSource.PlayOneShot(landAudioClip);
+                //    }
+                //}
             }
 
             airborne = airborneTime >= coyoteDelay;
@@ -171,24 +207,25 @@ namespace Unity.Game.Player
         {
             AnimatorStateInfo currentBaseState = animator.GetCurrentAnimatorStateInfo(0);   // ベースレイヤ
             animator.SetFloat(speedHash, speed);
+            animator.SetBool(groundHash, !airborne);
 
-            if (currentBaseState.fullPathHash == locoState)
-            {
-                if (useCurves)
-                {
-                    resetCollider();
-                }
-            }
-            else if (currentBaseState.fullPathHash == jumpState)
-            {
-                if (useCurves)
-                {
-                    var jumpHeight = animator.GetFloat(jumpHeightHash);   // JumpHeight → アニメーション (JUMP00) から設定
-                    var adjustCenterY = orgVectColCenter.y + jumpHeight;
-                    controller.height = orgColHight - jumpHeight;
-                    controller.center = new Vector3(0, adjustCenterY, 0);
-                }
-            }
+            //if (currentBaseState.fullPathHash == locoState)
+            //{
+            //    if (useCurves)
+            //    {
+            //        resetCollider();
+            //    }
+            //}
+            //else if (currentBaseState.fullPathHash == jumpState)
+            //{
+            //    if (useCurves)
+            //    {
+            //        var jumpHeight = animator.GetFloat(jumpHeightHash);   // JumpHeight → アニメーション (JUMP00) から設定
+            //        var adjustCenterY = orgVectColCenter.y + jumpHeight;
+            //        controller.height = orgColHight - jumpHeight;
+            //        controller.center = new Vector3(0, adjustCenterY, 0);
+            //    }
+            //}
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)
