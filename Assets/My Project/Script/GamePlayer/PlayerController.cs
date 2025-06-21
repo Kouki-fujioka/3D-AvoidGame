@@ -42,6 +42,7 @@ namespace Unity.Game.Player
         static readonly int speedHash = Animator.StringToHash("Speed");
         static readonly int groundHash = Animator.StringToHash("Ground");
         static readonly int jumpHash = Animator.StringToHash("Jump");
+        static readonly int danceHash = Animator.StringToHash("Dance");
         static readonly int deathHash = Animator.StringToHash("Death");
         static readonly int jumpHeightHash = Animator.StringToHash("JumpHeight");
         static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
@@ -172,7 +173,7 @@ namespace Unity.Game.Player
         {
             var wasGrounded = controller.isGrounded;    // 接地状態 (移動前)
 
-            if (GameIsEnding)   // ゲーム終了
+            if (GameIsEnding)
             {
                 moveDelta.x = 0.0f;
                 moveDelta.z = 0.0f;
@@ -247,7 +248,8 @@ namespace Unity.Game.Player
 
             if (evt.Win)
             {
-                animator.SetTrigger(deathHash);
+                transform.LookAt(Camera.main.transform);
+                animator.SetTrigger(danceHash);
             }
             else
             {

@@ -9,11 +9,11 @@ namespace Unity.Game
     {
         [Header("WinScene")]
         [SerializeField, Tooltip("ゲーム勝利時にロードするシーン")] string m_WinScene = "Menu Win";
-        [SerializeField, Tooltip("ゲーム勝利時にロードするシーンへの遷移時間")] float m_WinSceneDelay = 5.0f;    // アニメーション終了時間
+        [SerializeField, Tooltip("ゲーム勝利時にロードするシーンへの遷移時間")] float m_WinSceneDelay = 5.0f;    // 勝利アニメーション時間確保
 
         [Header("LoseScene")]
         [SerializeField, Tooltip("ゲーム敗北時にロードするシーン")] string m_LoseScene = "Menu Lose";
-        [SerializeField, Tooltip("ゲーム敗北時にロードするシーンへの遷移時間")] float m_LoseSceneDelay = 2.5f;
+        [SerializeField, Tooltip("ゲーム敗北時にロードするシーンへの遷移時間")] float m_LoseSceneDelay = 3.0f;   // 敗北アニメーション時間確保
 
         [Header("StartGameLockedControllerTime")]
         [SerializeField, Tooltip("ゲーム開始時にカメラ操作を無効にする時間")] float m_StartGameLockedControllerTime = 0.3f;

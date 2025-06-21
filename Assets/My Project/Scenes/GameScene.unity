@@ -230,7 +230,7 @@ MonoBehaviour:
   m_WinScene: Menu Win
   m_WinSceneDelay: 5
   m_LoseScene: Menu Lose
-  m_LoseSceneDelay: 2.5
+  m_LoseSceneDelay: 3
   m_StartGameLockedControllerTime: 0.3
 --- !u!4 &58330669
 Transform:
