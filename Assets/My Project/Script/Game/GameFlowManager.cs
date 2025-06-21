@@ -7,32 +7,35 @@ namespace Unity.Game
 {
     public class GameFlowManager : MonoBehaviour
     {
-        [Header("WinScene")]
-        [SerializeField, Tooltip("ゲーム勝利時にロードするシーン")] string m_WinScene = "Menu Win";
-        [SerializeField, Tooltip("ゲーム勝利時にロードするシーンへの遷移時間")] float m_WinSceneDelay = 5.0f;    // 勝利アニメーション時間確保
+        [Header("参照")]
+        [SerializeField, Tooltip("BGM")] AudioClip m_AudioClip;
 
-        [Header("LoseScene")]
-        [SerializeField, Tooltip("ゲーム敗北時にロードするシーン")] string m_LoseScene = "Menu Lose";
+        [Header("データ")]
+        [SerializeField, Tooltip("ゲーム勝利時にロードするシーン名")] string m_WinScene = "Menu Win";
+        [SerializeField, Tooltip("ゲーム勝利時にロードするシーンへの遷移時間")] float m_WinSceneDelay = 6.0f;    // 勝利アニメーション時間確保
+        [SerializeField, Tooltip("ゲーム敗北時にロードするシーン名")] string m_LoseScene = "Menu Lose";
         [SerializeField, Tooltip("ゲーム敗北時にロードするシーンへの遷移時間")] float m_LoseSceneDelay = 3.0f;   // 敗北アニメーション時間確保
-
-        [Header("StartGameLockedControllerTime")]
         [SerializeField, Tooltip("ゲーム開始時にカメラ操作を無効にする時間")] float m_StartGameLockedControllerTime = 0.3f;
 
-        public static string PreviousScene { get; private set; }    // 現在のシーン名
-        public bool GameIsEnding { get; private set; }  // ゲーム終了フラグ
-        float m_GameOverSceneTime;  // ゲーム終了シーンへの遷移時間
-        string m_GameOverSceneToLoad;   // ゲーム終了時に読み込むシーン名
+        AudioSource m_AudioSource;
         CinemachineFreeLook m_FreeLookCamera;
-        string m_ControllerAxisXName;   // カメラの x 軸名
-        string m_ControllerAxisYName;   // カメラの y 軸名
+        public static string PreviousScene { get; private set; }    // 現シーン名
+        public bool GameIsEnding { get; private set; }  // ゲーム終了フラグ
+        float m_GameOverSceneTime;  // シーン遷移時間 (勝利 or 敗北)
+        string m_GameOverSceneToLoad;   // シーン名 (勝利 or 敗北)
+        string m_ControllerAxisXName;   // カメラ x 軸名
+        string m_ControllerAxisYName;   // カメラ y 軸名
 
         private void Awake()
         {
             EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ブロードキャスト時に OnGameOver 実行
+            m_AudioSource = GetComponent<AudioSource>();
+            m_AudioSource.clip = m_AudioClip;
+            m_AudioSource.loop = true;
             m_FreeLookCamera = FindFirstObjectByType<CinemachineFreeLook>();
 
 #if !UNITY_EDITOR
-            Cursor.lockState = CursorLockMode.Locked;   // カーソルロック
+            Cursor.lockState = CursorLockMode.Locked;
 #endif
 
             if (m_FreeLookCamera)
@@ -47,6 +50,7 @@ namespace Unity.Game
         
         void Start()
         {
+            m_AudioSource.Play();
             StartCoroutine(StartGameLockControll());
         }
 
@@ -81,26 +85,21 @@ namespace Unity.Game
                 {
 
 #if !UNITY_EDITOR
-            Cursor.lockState = CursorLockMode.None; // カーソルロック解除
+            Cursor.lockState = CursorLockMode.None;
 #endif
 
                     PreviousScene = SceneManager.GetActiveScene().name;
-                    SceneManager.LoadScene(m_GameOverSceneToLoad);  // 勝敗に応じたシーンをロード
+                    SceneManager.LoadScene(m_GameOverSceneToLoad);
                 }
             }
         }
 
-        /// <summary>
-        /// ゲーム終了フラグをオン<br/>
-        /// 勝敗に応じてシーン名, シーン遷移時間を格納<br/>
-        /// カメラがプレイヤの追従を停止
-        /// </summary>
-        /// <param name="evt"></param>
         void OnGameOver(GameOverEvent evt)
         {
             if (!GameIsEnding)
             {
                 GameIsEnding = true;
+                m_AudioSource.Stop();
 
                 if (evt.Win)
                 {
@@ -121,6 +120,10 @@ namespace Unity.Game
             }
         }
 
+        /// <summary>
+        /// プレイヤをズーム
+        /// </summary>
+        /// <returns></returns>
         IEnumerator ZoomInOnPlayer()
         {
             if (m_FreeLookCamera)
@@ -130,14 +133,14 @@ namespace Unity.Game
                 m_FreeLookCamera.m_YAxis.m_InputAxisValue = 0.0f;
                 m_FreeLookCamera.m_XAxis.m_InputAxisName = "";
                 m_FreeLookCamera.m_YAxis.m_InputAxisName = "";
-                var zoomFactor = 1.0f;
-                float middleRigZoomFactor = m_FreeLookCamera.m_Orbits[1].m_Radius;
+                var zoomFactor = 1.0f;  // ズーム率 (1 ~ 0.3)
+                float middleRigZoomFactor = m_FreeLookCamera.m_Orbits[1].m_Radius;  // 距離 (カメラ ~ プレイヤ)
 
                 while (zoomFactor > 0.3f)
                 {
                     m_FreeLookCamera.m_YAxis.Value = Mathf.Lerp(m_FreeLookCamera.m_YAxis.Value, 0.6f, 3.0f * Time.deltaTime);
                     zoomFactor -= 0.1f * Time.deltaTime;
-                    m_FreeLookCamera.m_Orbits[1].m_Radius = middleRigZoomFactor * zoomFactor;
+                    m_FreeLookCamera.m_Orbits[1].m_Radius = middleRigZoomFactor * zoomFactor;   // ズーム
                     yield return new WaitForEndOfFrame();
                 }
             }

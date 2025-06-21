@@ -4,6 +4,11 @@ namespace Unity.Game.Behaviours.Actions
 {
     public class WinAction : ObjectiveAction
     {
+        /// <summary>
+        /// 勝敗条件 (タイトル, 説明, 進捗タイプ) を設定
+        /// </summary>
+        /// <param name="trigger"></param>
+        /// <returns></returns>
         public override ObjectiveConfiguration GetDefaultObjectiveConfiguration(Trigger trigger)
         {
             ObjectiveConfiguration result = new ObjectiveConfiguration();
@@ -12,16 +17,16 @@ namespace Unity.Game.Behaviours.Actions
             {
                 var triggerType = trigger.GetType();
 
-                if (triggerType == typeof(TimerTrigger))   // TimerTrigger 型の場合
+                if (triggerType == typeof(TimerTrigger))
                 {
-                    result.Title = "Survive";   // タイトルを設定
-                    result.Description = "Hang in there!";  // 説明を設定
-                    result.ProgressType = ObjectiveProgressType.Time;   // 進捗を設定
+                    result.Title = "Survive";
+                    result.Description = "Hang in there!";
+                    result.ProgressType = ObjectiveProgressType.Time;
                 }
                 else
                 {
-                    result.Title = "Complete the Objective";    // タイトルを設定
-                    result.Description = "Just do it!"; // 説明を設定
+                    result.Title = "Complete the Objective";
+                    result.Description = "Just do it!";
                 }
             }
             else

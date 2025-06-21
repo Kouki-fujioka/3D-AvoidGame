@@ -6,8 +6,8 @@ namespace Unity.Gaame.UI
 {
     public class MenuNavigation : MonoBehaviour
     {
-        public Selectable DefaultSelection;
-        public bool ForceSelection = false;
+        public Selectable DefaultSelection; // UI オブジェクト (初期選択)
+        public bool ForceSelection = false; // 強制選択フラグ
 
         void Start()
         {

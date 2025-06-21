@@ -18,7 +18,7 @@ namespace Unity.Game.UI
 
         void Start()
         {
-            EventManager.AddListener<GameOverEvent>(OnGameOver);
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ブロードキャスト時に OnGameOver 実行
         }
 
         void Update()
@@ -50,7 +50,7 @@ namespace Unity.Game.UI
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // リスナ解除
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver 登録解除
         }
     }
 }

@@ -6,9 +6,16 @@ namespace Unity.Game.Behaviours
 {
     public class BehaviourCoroutineManager : MonoBehaviour
     {
-        static BehaviourCoroutineManager m_Instance;
+        static BehaviourCoroutineManager m_Instance;    // シングルトンパターン
         static readonly Dictionary<Object, Dictionary<string, Coroutine>> s_ExistingCoroutines = new Dictionary<Object, Dictionary<string, Coroutine>>();
 
+        /// <summary>
+        /// 未登録コルーチン実行, 登録済みコルーチン停止
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="key"></param>
+        /// <param name="coroutine"></param>
+        /// <param name="stopExisting"></param>
         public static void StartCoroutine(Object owner, string key, IEnumerator coroutine, bool stopExisting = false)
         {
             if (m_Instance)
@@ -37,6 +44,7 @@ namespace Unity.Game.Behaviours
 
         void Awake()
         {
+            // シングルトンパターン再現
             if (m_Instance && m_Instance != this)
             {
                 Destroy(this);

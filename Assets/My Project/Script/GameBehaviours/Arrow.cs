@@ -1,5 +1,4 @@
 using UnityEngine;
-using Unity.Game.Player;
 
 namespace Unity.Game.Behaviours
 {
@@ -7,16 +6,23 @@ namespace Unity.Game.Behaviours
 
     public class Arrow : MonoBehaviour
     {
-        [SerializeField, Range(0.0f, 1080.0f), Tooltip("The rotation speed in degrees per second.")] float m_RotationSpeed = 0.0f;
+        [Header("データ")]
+        [SerializeField, Range(0.0f, 1080.0f), Tooltip("発射オブジェクト回転速度")] float m_RotationSpeed = 0.0f;
 
-        public bool Deadly { get; private set; } = true;
+        public bool Deadly { get; private set; } = true;    // 即死フラグ
+        bool m_Launched;    // 発射フラグ
+        bool m_Rotate;  // 回転フラグ
+        Vector3 m_Rotation; // 回転量
         Rigidbody m_RigidBody;
         CapsuleCollider m_Collider;
         ParticleSystem m_ParticleSystem;
-        bool m_Rotate;
-        Vector3 m_Rotation;
-        bool m_Launched;
 
+        /// <summary>
+        /// 発射オブジェクト詳細設定
+        /// </summary>
+        /// <param name="velocity"></param>
+        /// <param name="useGravity"></param>
+        /// <param name="time"></param>
         public void Init(float velocity, bool useGravity, float time)
         {
             m_RigidBody.linearVelocity = transform.forward * velocity;
@@ -50,7 +56,7 @@ namespace Unity.Game.Behaviours
                 var c0 = transform.TransformPoint(m_Collider.center - Vector3.forward * (m_Collider.height * 0.5f - m_Collider.radius));
                 var c1 = transform.TransformPoint(m_Collider.center + Vector3.forward * (m_Collider.height * 0.5f - m_Collider.radius));
                 var colliders = Physics.OverlapCapsule(c0, c1, m_Collider.radius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-                var collisions = false;
+                var collisions = false; // 衝突フラグ
 
                 foreach (var collider in colliders)
                 {
@@ -76,7 +82,7 @@ namespace Unity.Game.Behaviours
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation(m_RigidBody.linearVelocity);
+                    transform.rotation = Quaternion.LookRotation(m_RigidBody.linearVelocity);   // 回転 (移動方向)
                 }
             }
         }
@@ -87,7 +93,7 @@ namespace Unity.Game.Behaviours
             {
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
-                EventManager.Broadcast(evt);
+                EventManager.Broadcast(evt);    // GameOverEvent ブロードキャスト
             }
 
             m_RigidBody.useGravity = true;

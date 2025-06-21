@@ -1,8 +1,4 @@
-﻿using Cinemachine;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.InputSystem.XR;
+﻿using UnityEngine;
 
 namespace Unity.Game.Player
 {
@@ -11,6 +7,12 @@ namespace Unity.Game.Player
 
     public class PlayerController : MonoBehaviour
     {
+        [Header("参照")]
+        [SerializeField, Tooltip("ステップオーディオ")] AudioClip stepAudioClip;
+        [SerializeField, Tooltip("ジャンプオーディオ")] AudioClip jumpAudioClip;
+        [SerializeField, Tooltip("着地オーディオ")] AudioClip landAudioClip;
+        [SerializeField, Tooltip("死亡オーディオ")] AudioClip deathAudioClip;
+
         [Header("データ")]
         [SerializeField, Tooltip("アニメーション再生速度")] float animatorSpeed = 1.5f;
         [SerializeField, Tooltip("跳躍時のコライダ調整")] bool useCurves = true;
@@ -27,20 +29,15 @@ namespace Unity.Game.Player
         Vector3 directVelocity;    // 現速度 (カメラ基準)
         Vector3 orgVectColCenter;   // コライダ初期値 (中心)
         Vector3 moveDelta;  // 移動量
+        int jumpsInAir; // ジャンプ可能回数
         const float coyoteDelay = 0.1f; // コヨーテタイム
         float airborneTime; // 滞空時間
-        int jumpsInAir; // ジャンプ可能回数
         float orgColHight;  // コライダ初期値 (高さ)
         float directRotate; // 現回転速度 (カメラ基準)
         float speed;    // 速さ
-        bool airborne;  // 空中
-        bool GameIsEnding;  // ゲーム終了
-
-        [Header("参照")]
-        [SerializeField, Tooltip("ステップオーディオ")] AudioClip stepAudioClip;
-        [SerializeField, Tooltip("ジャンプオーディオ")] AudioClip jumpAudioClip;
-        [SerializeField, Tooltip("着地オーディオ")] AudioClip landAudioClip;
-
+        bool stepped;   // 踏み出しフラグ
+        bool airborne;  // 空中フラグ
+        bool GameIsEnding;  // ゲーム終了フラグ
         Animator animator;
         CharacterController controller;
         AudioSource audioSource;
@@ -50,9 +47,7 @@ namespace Unity.Game.Player
         static readonly int jumpHash = Animator.StringToHash("Jump");
         static readonly int danceHash = Animator.StringToHash("Dance");
         static readonly int deathHash = Animator.StringToHash("Death");
-        static readonly int jumpHeightHash = Animator.StringToHash("JumpHeight");
         static readonly int locoState = Animator.StringToHash("Base Layer.Locomotion");
-        static readonly int jumpState = Animator.StringToHash("Base Layer.Jump");
 
         void Awake()
         {
@@ -145,7 +140,7 @@ namespace Unity.Game.Player
 
                 if (Input.GetButtonDown("Jump"))    // スペースキー
                 {
-                    if (!airborne || jumpsInAir > 0)  // 地上
+                    if (!airborne || jumpsInAir > 0)
                     {
                         if (airborne)
                         {
@@ -175,7 +170,9 @@ namespace Unity.Game.Player
             }
         }
 
-        // キャラクタ移動, 回転, アニメーション
+        /// <summary>
+        /// プレイヤ移動, 回転, アニメーション
+        /// </summary>
         void Motion()
         {
             var wasGrounded = controller.isGrounded;    // 接地状態 (移動前)
@@ -187,7 +184,7 @@ namespace Unity.Game.Player
                 directRotate = 0.0f;
             }
 
-            if (!controller.isGrounded) // 空中
+            if (!controller.isGrounded)
             {
                 moveDelta.y -= gravity * Time.deltaTime;    // 重力適用
                 airborneTime += Time.deltaTime;
@@ -215,14 +212,18 @@ namespace Unity.Game.Player
             UpdateAnimation();
         }
 
-        // コライダ初期化
+        /// <summary>
+        /// コライダ初期化
+        /// </summary>
         void resetCollider()
         {
             controller.height = orgColHight;
             controller.center = orgVectColCenter;
         }
 
-        // アニメーション更新
+        /// <summary>
+        /// プレイヤアニメーション更新
+        /// </summary>
         void UpdateAnimation()
         {
             AnimatorStateInfo currentBaseState = animator.GetCurrentAnimatorStateInfo(0);   // ベースレイヤ
@@ -249,6 +250,30 @@ namespace Unity.Game.Player
             }
         }
 
+        /// <summary>
+        /// アニメーションイベント
+        /// </summary>
+        public void StepFoot()
+        {
+            if (!stepped)
+            {
+                if (stepAudioClip)
+                {
+                    audioSource.PlayOneShot(stepAudioClip);
+                }
+            }
+
+            stepped = true;
+        }
+
+        /// <summary>
+        /// アニメーションイベント
+        /// </summary>
+        public void LiftFoot()
+        {
+            stepped = false;
+        }
+
         void OnGameOver(GameOverEvent evt)
         {
             GameIsEnding = true;
@@ -260,13 +285,18 @@ namespace Unity.Game.Player
             }
             else
             {
+                if (deathAudioClip)
+                {
+                    audioSource.PlayOneShot(deathAudioClip);
+                }
+
                 animator.SetTrigger(deathHash);
             }
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (controller.isGrounded)  // 地上
+            if (controller.isGrounded)
             {
                 RaycastHit raycastHit;
 

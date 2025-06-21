@@ -11,9 +11,9 @@ namespace Unity.LEGO.UI
         [SerializeField, Tooltip("条件達成アイコンスケール用")] AnimationCurve m_ScaleCurve = default;
 
         [Header("データ")]
-        [SerializeField, Tooltip("The delay in seconds before the effect.")] float m_AnimationDelay = 0.0f;
+        [SerializeField, Tooltip("スケール開始ディレイ")] float m_AnimationDelay = 0.0f;
 
-        float m_Time;
+        float m_Time;   // 経過時間
 
         void Update()
         {

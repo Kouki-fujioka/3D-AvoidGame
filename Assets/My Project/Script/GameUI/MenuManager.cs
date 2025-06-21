@@ -35,23 +35,23 @@ namespace Unity.Game.UI
             OnSensitivityChanged(defaultSensitivity);
         }
 
-        void OnShadowsChanged(bool value)   // コールバックメソッド
+        void OnShadowsChanged(bool value)
         {
             QualitySettings.shadows = value ? ShadowQuality.All : ShadowQuality.Disable;
         }
 
-        void OnFrameRateCounterChanged(bool value)  // コールバックメソッド
+        void OnFrameRateCounterChanged(bool value)
         {
             m_FrameRateCounter.Show(value);
         }
 
-        void OnSensitivityChanged(float sensitivity)    // コールバックメソッド
+        void OnSensitivityChanged(float sensitivity)
         {
             PlayerPrefs.SetFloat("Sensitivity", sensitivity);
             PlayerPrefs.Save();
             LookSensitivityUpdateEvent lookSensitivityUpdateEvent = Events.LookSensitivityUpdateEvent;
             lookSensitivityUpdateEvent.Value = sensitivity;
-            EventManager.Broadcast(lookSensitivityUpdateEvent);
+            EventManager.Broadcast(lookSensitivityUpdateEvent); // LookSensitivityUpdateEvent ブロードキャスト
         }
 
         public void CloseMenu() // ボタン (DoneButton) 押下時
@@ -84,7 +84,7 @@ namespace Unity.Game.UI
 
             OptionsMenuEvent evt = Events.OptionsMenuEvent;
             evt.Active = active;
-            EventManager.Broadcast(evt);
+            EventManager.Broadcast(evt);    // OptionsMenuEvent ブロードキャスト
         }
 
         void Update()

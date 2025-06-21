@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 58330671}
   - component: {fileID: 58330673}
   - component: {fileID: 58330672}
+  - component: {fileID: 58330674}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -227,8 +228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 435e5aed27eb6c049974acfb5daa514c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AudioClip: {fileID: 8300000, guid: 063ebdced8aa0444a8e3a5673c2ccb6b, type: 3}
   m_WinScene: Menu Win
-  m_WinSceneDelay: 5
+  m_WinSceneDelay: 6
   m_LoseScene: Menu Lose
   m_LoseSceneDelay: 3
   m_StartGameLockedControllerTime: 0.3
@@ -287,11 +289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3d98df4d7cb4741890185270e91cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Progress: 0
-  Goal: 0
   m_SpecificTargetActions:
   - {fileID: 58330673}
   m_Repeat: 0
+  Progress: 0
+  Goal: 0
   m_Time: 30
 --- !u!114 &58330673
 MonoBehaviour:
@@ -305,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914f7dc84f402ce4c8ffa99de776e2eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Audio: {fileID: 8300000, guid: 4b8dc171ea53e4e9a9888deeadb024a1, type: 3}
+  m_Audio: {fileID: 8300000, guid: 4be084cf652ff4844be56cd5bcd18619, type: 3}
   m_AudioVolume: 1
   m_ObjectiveConfigurations:
   - Title: Survive
@@ -315,6 +317,103 @@ MonoBehaviour:
     Hidden: 0
   m_Triggers:
   - {fileID: 58330672}
+--- !u!82 &58330674
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58330667}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &71392262
 GameObject:
   m_ObjectHideFlags: 0
@@ -3716,7 +3815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &851355614
 Transform:
   m_ObjectHideFlags: 0
@@ -11633,6 +11732,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8897e65aa93c7e54ea326c4e1f714aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stepAudioClip: {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
+  jumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
+  landAudioClip: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
+  deathAudioClip: {fileID: 8300000, guid: 7923eaff9f888420783fc6ac990c10d3, type: 3}
   animatorSpeed: 1.5
   useCurves: 1
   inputEnabled: 1
@@ -11643,9 +11746,6 @@ MonoBehaviour:
   acceleration: 40
   gravity: 40
   maxJumpsInAir: 0
-  stepAudioClip: {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
-  jumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
-  landAudioClip: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
 --- !u!82 &6066007584157241838
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11658,7 +11758,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

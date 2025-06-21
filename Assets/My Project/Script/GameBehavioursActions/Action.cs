@@ -11,21 +11,31 @@ namespace Unity.Game.Behaviours.Actions
 {
     public abstract class Action : MonoBehaviour
     {
-        [SerializeField, Tooltip("The audio clip used by the Behaviour.")] protected AudioClip m_Audio;
-        [SerializeField, Range(0.0f, 1.0f), Tooltip("The volume of the audio.")] protected float m_AudioVolume = 1.0f;
+        [Header("参照")]
+        [SerializeField, Tooltip("オーディオクリップ")] protected AudioClip m_Audio;
 
-        protected bool m_Active;
-        readonly List<AudioSource> m_AudioSourcesToDestroy = new List<AudioSource>();
-        const float k_AudioRange = 80.0f;
+        [Header("データ")]
+        [SerializeField, Range(0.0f, 1.0f), Tooltip("オーディオボリューム")] protected float m_AudioVolume = 1.0f;
 
+        protected bool m_Active;    // アクション実行フラグ
+        readonly List<AudioSource> m_AudioSourcesToDestroy = new List<AudioSource>();   // AudioSource オブジェクト (破壊用)
+        const float k_AudioRange = 80.0f;   // オーディオ範囲
+
+        /// <summary>
+        /// フラグ (m_Active) 更新
+        /// </summary>
         public virtual void Activate()
         {
-            if (!m_Active)  // 動作非実行時
+            if (!m_Active)
             {
-                m_Active = true;    // 動作実行
+                m_Active = true;
             }
         }
 
+        /// <summary>
+        /// シーン内の Trigger コンポーネント (アクション用) を返却
+        /// </summary>
+        /// <returns></returns>
         public List<Trigger> GetTargetingTriggers()
         {
             var result = new List<Trigger>();
@@ -55,6 +65,16 @@ namespace Unity.Game.Behaviours.Actions
             }
         }
 
+        /// <summary>
+        /// オーディオクリップを再生
+        /// </summary>
+        /// <param name="loop"></param>
+        /// <param name="spatial"></param>
+        /// <param name="moveWithScope"></param>
+        /// <param name="scopeDeterminesDistance"></param>
+        /// <param name="destroyWithAction"></param>
+        /// <param name="pitch"></param>
+        /// <returns></returns>
         protected AudioSource PlayAudio(bool loop = false, bool spatial = true, bool moveWithScope = true, bool scopeDeterminesDistance = true, bool destroyWithAction = true, float pitch = 1.0f)
         {
             if (m_Audio)
@@ -113,6 +133,11 @@ namespace Unity.Game.Behaviours.Actions
             }
         }
 
+        /// <summary>
+        /// オーディオクリップ再生後にオーディオオブジェクトを削除
+        /// </summary>
+        /// <param name="audioSource"></param>
+        /// <returns></returns>
         IEnumerator DoDestroyAudio(AudioSource audioSource)
         {
             yield return new WaitForSeconds(audioSource.clip.length);

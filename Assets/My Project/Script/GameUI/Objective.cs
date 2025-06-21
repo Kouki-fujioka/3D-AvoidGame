@@ -8,17 +8,23 @@ namespace Unity.Game.UI
     public class Objective : MonoBehaviour
     {
         [Header("参照")]
-        [SerializeField, Tooltip("条件 (勝利, 敗北) タイトル")] TMPro.TextMeshProUGUI m_Title = default;
-        [SerializeField, Tooltip("条件 (勝利, 敗北) 説明")] TMPro.TextMeshProUGUI m_Description = default;
-        [SerializeField, Tooltip("条件 (勝利, 敗北) 進捗")] TMPro.TextMeshProUGUI m_Progress = default;
-        [SerializeField, Tooltip("条件 (勝利, 敗北) 達成アイコン")] Image m_CompleteIcon = default;
+        [SerializeField, Tooltip("勝敗条件タイトル")] TMPro.TextMeshProUGUI m_Title = default;
+        [SerializeField, Tooltip("勝敗条件説明")] TMPro.TextMeshProUGUI m_Description = default;
+        [SerializeField, Tooltip("勝敗条件進捗")] TMPro.TextMeshProUGUI m_Progress = default;
+        [SerializeField, Tooltip("勝敗条件達成アイコン")] Image m_CompleteIcon = default;
         [SerializeField, Tooltip("アニメーションカーブ")] AnimationCurve m_MoveCurve = default;
 
-        float m_Time;
-        const int s_Margin = 25;
-        const int s_Space = 4;
+        float m_Time;   // 経過時間
+        const int s_Margin = 25;    // マージン
+        const int s_Space = 4;  // スペース (タイトル ~ 進捗)
         RectTransform m_RectTransform;
 
+        /// <summary>
+        /// テキスト (タイトル, 説明, 進捗) を設定
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="progress"></param>
         public void Initialize(string title, string description, string progress)
         {
             m_RectTransform = GetComponent<RectTransform>();
@@ -39,11 +45,11 @@ namespace Unity.Game.UI
 
         public void OnProgress(IObjective objective)
         {
-            m_Progress.text = objective.GetProgress();
+            m_Progress.text = objective.GetProgress();  // テキスト (進捗) 更新
 
-            if (objective.IsCompleted)  // 条件 (勝利, 敗北) 達成時
+            if (objective.IsCompleted)
             {
-                m_CompleteIcon.gameObject.SetActive(true);  // アイコン表示
+                m_CompleteIcon.gameObject.SetActive(true);
                 objective.OnProgress -= OnProgress; // リスナ解除
             }
         }

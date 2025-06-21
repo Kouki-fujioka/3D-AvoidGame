@@ -8,17 +8,15 @@ namespace Unity.Game.Behaviours.Actions
     {
         public abstract ObjectiveConfiguration GetDefaultObjectiveConfiguration(Trigger trigger);
 
-        [SerializeField]
-        List<ObjectiveConfiguration> m_ObjectiveConfigurations = new List<ObjectiveConfiguration>();
-
-        [SerializeField]
-        List<Trigger> m_Triggers = new List<Trigger>();
+        [Header("参照")]
+        [SerializeField, Tooltip("勝敗条件 (タイトル, 説明等)")] List<ObjectiveConfiguration> m_ObjectiveConfigurations = new List<ObjectiveConfiguration>();
+        [SerializeField, Tooltip("対象トリガ")] List<Trigger> m_Triggers = new List<Trigger>();
 
         public override void Activate()
         {
             PlayAudio(spatial: false, destroyWithAction: false);
             base.Activate();
-            m_Active = false;   // 動作非実行
+            m_Active = false;
         }
 
         protected override void Start()
@@ -50,6 +48,15 @@ namespace Unity.Game.Behaviours.Actions
             }
         }
 
+        /// <summary>
+        /// 勝敗条件 (タイトル, 説明等) を設定
+        /// </summary>
+        /// <param name="trigger"></param>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="progressType"></param>
+        /// <param name="lose"></param>
+        /// <param name="hidden"></param>
         void AddObjective(Trigger trigger, string title, string description, ObjectiveProgressType progressType, bool lose, bool hidden)
         {
             var objective = gameObject.AddComponent<Objective>();

@@ -4,10 +4,11 @@ namespace Unity.Game.Behaviours.Triggers
 {
     public class TimerTrigger : Trigger
     {
-        [SerializeField, Tooltip("The time in seconds before triggering.")] float m_Time = 10.0f;
+        [Header("データ")]
+        [SerializeField, Tooltip("トリガ起動時間 (制限時間)")] float m_Time = 10.0f;
 
-        float m_CurrentTime;
-        int m_PreviousProgress;
+        float m_CurrentTime;    // 現経過時間
+        int m_PreviousProgress; // 旧経過時間
 
         void OnValidate()
         {
@@ -37,7 +38,7 @@ namespace Unity.Game.Behaviours.Triggers
             {
                 if (m_PreviousProgress != Progress)
                 {
-                    OnProgress?.Invoke();
+                    OnProgress?.Invoke();   // テキスト (進捗), フラグ (m_UpdateStatus) 更新
                 }
             }
 

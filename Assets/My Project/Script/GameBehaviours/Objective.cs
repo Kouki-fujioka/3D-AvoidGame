@@ -7,14 +7,18 @@ namespace Unity.Game.Behaviours
     public class Objective : MonoBehaviour, IObjective
     {
         public Trigger m_Trigger;
-        public string m_Title { get; set; }
-        public string m_Description { get; set; }
-        public ObjectiveProgressType m_ProgressType { get; set; }
-        public bool m_Lose { get; set; }
-        public bool m_Hidden { get; set; }
-        public bool IsCompleted { get; private set; }
-        public Action<IObjective> OnProgress { get; set; }
+        public string m_Title { get; set; } // 勝敗条件タイトル
+        public string m_Description { get; set; }   // 勝敗条件説明
+        public ObjectiveProgressType m_ProgressType { get; set; }   // 勝敗条件進捗タイプ
+        public bool m_Lose { get; set; }    // 敗北条件フラグ
+        public bool m_Hidden { get; set; }  // 勝敗条件表示フラグ
+        public bool IsCompleted { get; private set; }   // 勝敗条件達成フラグ
+        public Action<IObjective> OnProgress { get; set; }  // デリゲート
 
+        /// <summary>
+        /// 進捗を返却
+        /// </summary>
+        /// <returns></returns>
         public string GetProgress()
         {
             switch(m_ProgressType)
@@ -53,12 +57,12 @@ namespace Unity.Game.Behaviours
         {
             ObjectiveAdded evt = Events.ObjectiveAddedEvent;
             evt.Objective = this;
-            EventManager.Broadcast(evt);
+            EventManager.Broadcast(evt);    // ObjectiveAdded ブロードキャスト
 
             if (m_Trigger)
             {
-                m_Trigger.OnProgress += Progress;
-                m_Trigger.OnActivate += Activate;
+                m_Trigger.OnProgress += Progress;   // リスナ登録
+                m_Trigger.OnActivate += Activate;   // リスナ登録
             }
             else
             {
@@ -66,11 +70,17 @@ namespace Unity.Game.Behaviours
             }
         }
 
+        /// <summary>
+        /// テキスト (進捗), フラグ (m_UpdateStatus) 更新
+        /// </summary>
         void Progress()
         {
             OnProgress?.Invoke(this);
         }
 
+        /// <summary>
+        /// テキスト (進捗), フラグ (IsCompleted, m_UpdateStatus) 更新
+        /// </summary>
         void Activate()
         {
             if (IsCompleted)
