@@ -13,7 +13,7 @@ namespace Unity.Game
 
         [Header("LoseScene")]
         [SerializeField, Tooltip("ƒQ[ƒ€”s–kŽž‚Éƒ[ƒh‚·‚éƒV[ƒ“")] string m_LoseScene = "Menu Lose";
-        [SerializeField, Tooltip("ƒQ[ƒ€”s–kŽž‚Éƒ[ƒh‚·‚éƒV[ƒ“‚Ö‚Ì‘JˆÚŽžŠÔ")] float m_LoseSceneDelay = 3.0f;
+        [SerializeField, Tooltip("ƒQ[ƒ€”s–kŽž‚Éƒ[ƒh‚·‚éƒV[ƒ“‚Ö‚Ì‘JˆÚŽžŠÔ")] float m_LoseSceneDelay = 2.5f;
 
         [Header("StartGameLockedControllerTime")]
         [SerializeField, Tooltip("ƒQ[ƒ€ŠJŽnŽž‚ÉƒJƒƒ‰‘€ì‚ð–³Œø‚É‚·‚éŽžŠÔ")] float m_StartGameLockedControllerTime = 0.3f;
@@ -106,6 +106,7 @@ namespace Unity.Game
                 {
                     m_GameOverSceneToLoad = m_WinScene;
                     m_GameOverSceneTime = Time.time + m_WinSceneDelay;
+                    StartCoroutine(ZoomInOnPlayer());
                 }
                 else
                 {
@@ -116,6 +117,28 @@ namespace Unity.Game
                     {
                         m_FreeLookCamera.Follow = null;
                     }
+                }
+            }
+        }
+
+        IEnumerator ZoomInOnPlayer()
+        {
+            if (m_FreeLookCamera)
+            {
+                // ƒJƒƒ‰‘€ì–³Œø
+                m_FreeLookCamera.m_XAxis.m_InputAxisValue = 0.0f;
+                m_FreeLookCamera.m_YAxis.m_InputAxisValue = 0.0f;
+                m_FreeLookCamera.m_XAxis.m_InputAxisName = "";
+                m_FreeLookCamera.m_YAxis.m_InputAxisName = "";
+                var zoomFactor = 1.0f;
+                float middleRigZoomFactor = m_FreeLookCamera.m_Orbits[1].m_Radius;
+
+                while (zoomFactor > 0.3f)
+                {
+                    m_FreeLookCamera.m_YAxis.Value = Mathf.Lerp(m_FreeLookCamera.m_YAxis.Value, 0.6f, 3.0f * Time.deltaTime);
+                    zoomFactor -= 0.1f * Time.deltaTime;
+                    m_FreeLookCamera.m_Orbits[1].m_Radius = middleRigZoomFactor * zoomFactor;
+                    yield return new WaitForEndOfFrame();
                 }
             }
         }

@@ -230,7 +230,7 @@ MonoBehaviour:
   m_WinScene: Menu Win
   m_WinSceneDelay: 5
   m_LoseScene: Menu Lose
-  m_LoseSceneDelay: 3
+  m_LoseSceneDelay: 2.5
   m_StartGameLockedControllerTime: 0.3
 --- !u!4 &58330669
 Transform:
@@ -3716,7 +3716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &851355614
 Transform:
   m_ObjectHideFlags: 0
@@ -8191,7 +8191,7 @@ Transform:
   m_GameObject: {fileID: 1859379081}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15, z: 0}
+  m_LocalPosition: {x: 0, y: -10, z: 0}
   m_LocalScale: {x: 150, y: 1, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []

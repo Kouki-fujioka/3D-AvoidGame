@@ -85,13 +85,6 @@ namespace Unity.Game.Behaviours
         {
             if (Deadly && collision.collider.gameObject.CompareTag("Player"))
             {
-                var playerController = collision.collider.GetComponent<PlayerController>();
-
-                if (playerController)
-                {
-                    playerController.Death();
-                }
-
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
                 EventManager.Broadcast(evt);

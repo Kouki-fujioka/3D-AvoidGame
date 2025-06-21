@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem.XR;
 
 namespace Unity.Game.Player
 {
@@ -31,6 +33,7 @@ namespace Unity.Game.Player
         float directRotate; // 現回転速度 (カメラ基準)
         float speed;    // 速さ
         bool airborne;  // 空中
+        bool GameIsEnding;  // ゲーム終了
 
         // 参照
         Animator animator;
@@ -46,6 +49,7 @@ namespace Unity.Game.Player
 
         void Awake()
         {
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ブロードキャスト時に OnGameOver 実行
             animator = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
             orgColHight = controller.height;
@@ -168,6 +172,13 @@ namespace Unity.Game.Player
         {
             var wasGrounded = controller.isGrounded;    // 接地状態 (移動前)
 
+            if (GameIsEnding)   // ゲーム終了
+            {
+                moveDelta.x = 0.0f;
+                moveDelta.z = 0.0f;
+                directRotate = 0.0f;
+            }
+
             if (!controller.isGrounded) // 空中
             {
                 moveDelta.y -= gravity * Time.deltaTime;    // 重力適用
@@ -230,11 +241,18 @@ namespace Unity.Game.Player
             }
         }
 
-        // プレイヤ死亡
-        public void Death()
+        void OnGameOver(GameOverEvent evt)
         {
-            animator.SetTrigger(deathHash);
-            inputEnabled = false;
+            GameIsEnding = true;
+
+            if (evt.Win)
+            {
+                animator.SetTrigger(deathHash);
+            }
+            else
+            {
+                animator.SetTrigger(deathHash);
+            }
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)
@@ -248,6 +266,11 @@ namespace Unity.Game.Player
                     ground = raycastHit.collider.transform;  // 接地地面
                 }
             }
+        }
+
+        void OnDestroy()
+        {
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver 登録解除
         }
     }
 }
