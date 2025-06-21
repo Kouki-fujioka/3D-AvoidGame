@@ -148,7 +148,7 @@ namespace Unity.Game.Player
                     jumpsInAir = maxJumpsInAir;
                 }
 
-                if (Input.GetButtonDown("Jump"))    // スペースキー
+                if (Input.GetButtonDown("Jump") && !GameIsEnding)   // スペースキー
                 {
                     if (!airborne || jumpsInAir > 0)
                     {
