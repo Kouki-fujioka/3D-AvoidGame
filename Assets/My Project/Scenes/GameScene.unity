@@ -3815,7 +3815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &851355614
 Transform:
   m_ObjectHideFlags: 0
@@ -11732,15 +11732,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8897e65aa93c7e54ea326c4e1f714aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 5691263304730746536}
-  footR: {fileID: 2170324347704173975}
-  footL: {fileID: 7676130306327232548}
   stepAudioClip: {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
   jumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
   landAudioClip: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
   deathAudioClip: {fileID: 8300000, guid: 7923eaff9f888420783fc6ac990c10d3, type: 3}
   animatorSpeed: 1.5
-  useCurves: 1
   inputEnabled: 1
   forwardSpeed: 13
   backwardSpeed: 6

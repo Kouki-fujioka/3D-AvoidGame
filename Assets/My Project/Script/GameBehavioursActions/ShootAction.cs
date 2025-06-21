@@ -10,7 +10,7 @@ namespace Unity.Game.Behaviours.Actions
 
         [Header("データ")]
         [SerializeField, Range(1, 100), Tooltip("発射速度")] float m_Velocity = 25f;
-        [SerializeField, Range(0, 100), Tooltip("The accuracy in percent.")] int m_Accuracy = 65;
+        [SerializeField, Range(0, 100), Tooltip("発射オブジェクト拡散率")] int m_Accuracy = 65;
         [SerializeField, Tooltip("発射オブジェクト消滅時間")] float m_Lifetime = 8f;
         [SerializeField, Tooltip("発射オブジェクト重力付与フラグ")] bool m_UseGravity = true;
 
@@ -57,8 +57,8 @@ namespace Unity.Game.Behaviours.Actions
         {
             if (m_Arrow)
             {
-                var accuracyToDegrees = 90.0f - 90.0f * m_Accuracy / 100.0f;    // 拡散角度
-                var randomSpread = Random.insideUnitCircle * Mathf.Tan(accuracyToDegrees * Mathf.Deg2Rad * 0.5f);   // ？
+                var accuracyToDegrees = 90.0f - 90.0f * m_Accuracy / 100.0f;    // 最大拡散角度
+                var randomSpread = Random.insideUnitCircle * Mathf.Tan(accuracyToDegrees * Mathf.Deg2Rad * 0.5f);   // 発射方向 (ランダム)
                 var projectilePosition = m_ShootPoint.position; // 発射地点
                 var projectileRotation = m_ShootPoint.rotation * Quaternion.LookRotation(Vector3.forward + Vector3.right * randomSpread.x + Vector3.up * randomSpread.y);   // 発射角度
                 var go = Instantiate(m_Arrow, projectilePosition, projectileRotation);
