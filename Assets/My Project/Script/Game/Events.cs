@@ -21,6 +21,7 @@ namespace Unity.Game
     public class GameOverEvent : GameEvent
     {
         public bool Win;
+        public bool Fall;
     }
 
     public class LookSensitivityUpdateEvent : GameEvent

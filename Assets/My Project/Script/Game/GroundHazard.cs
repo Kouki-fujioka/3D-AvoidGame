@@ -10,6 +10,7 @@ namespace Unity.Game
             {
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
+                evt.Fall = true;
                 EventManager.Broadcast(evt);    // GameOverEvent ブロードキャスト
             }
         }

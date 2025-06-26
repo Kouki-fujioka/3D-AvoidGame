@@ -236,7 +236,7 @@ namespace Unity.Game.Player
         /// </summary>
         void UpdateAnimation()
         {
-            AnimatorStateInfo currentBaseState = animator.GetCurrentAnimatorStateInfo(0);   // ベースレイヤ
+            //AnimatorStateInfo currentBaseState = animator.GetCurrentAnimatorStateInfo(0);   // ベースレイヤ
             animator.SetFloat(speedHash, speed);
             animator.SetBool(groundHash, !airborne);
 
@@ -288,22 +288,28 @@ namespace Unity.Game.Player
 
         void OnGameOver(GameOverEvent evt)
         {
-            GameIsEnding = true;
-
-            if (evt.Win)
+            if (!GameIsEnding)
             {
-                transform.LookAt(Camera.main.transform);
-                animator.SetTrigger(danceHash);
-            }
-            else
-            {
-                if (deathAudioClip)
+                if (evt.Win)
                 {
-                    audioSource.PlayOneShot(deathAudioClip);
+                    transform.LookAt(Camera.main.transform);
+                    animator.SetTrigger(danceHash);
                 }
+                else
+                {
+                    if (deathAudioClip)
+                    {
+                        audioSource.PlayOneShot(deathAudioClip);
+                    }
 
-                animator.SetTrigger(deathHash);
+                    if (!evt.Fall)
+                    {
+                        animator.SetTrigger(deathHash);
+                    }
+                }
             }
+
+            GameIsEnding = true;
         }
 
         void OnControllerColliderHit(ControllerColliderHit hit)

@@ -71,6 +71,7 @@ namespace Unity.Game
             if (m_Won || m_Lost)    // ゲーム終了
             {
                 Events.GameOverEvent.Win = m_Won || !m_Lost;
+                Events.GameOverEvent.Fall = false;
                 EventManager.Broadcast(Events.GameOverEvent);   // GameOverEvent ブロードキャスト
                 Destroy(this);
             }

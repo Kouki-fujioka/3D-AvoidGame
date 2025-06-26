@@ -93,6 +93,7 @@ namespace Unity.Game.Behaviours
             {
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
+                evt.Fall = false;
                 EventManager.Broadcast(evt);    // GameOverEvent ブロードキャスト
             }
 
