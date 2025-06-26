@@ -7,9 +7,9 @@ namespace Unity.Game
     {
         [Header("データ")]
         [SerializeField, Tooltip("基準値 (上下視点移動速度)")] float m_VerticalLookMinSensitivity = 0.5f;
-        [SerializeField, Range(0.25f, 1.0f), Tooltip("ステップ幅 (上下視点移動速度)")] float m_VerticalLookSensitivityStep = 0.25f;
+        [SerializeField, Range(0.25f, 1.0f), Tooltip("ステップ幅 (上下視点移動速度)")] float m_VerticalLookSensitivityStep = 1.0f;
         [SerializeField, Tooltip("基準値 (左右視点移動速度)")] float m_HorizontalLookMinimumSensitivity = 50.0f;
-        [SerializeField, Range(10.0f, 100.0f), Tooltip("ステップ幅 (左右視点移動速度)")] float m_HorizontalLookSensitivityStep = 50.0f;
+        [SerializeField, Range(10.0f, 100.0f), Tooltip("ステップ幅 (左右視点移動速度)")] float m_HorizontalLookSensitivityStep = 100.0f;
 
         CinemachineFreeLook m_FreeLookCamera;
 
