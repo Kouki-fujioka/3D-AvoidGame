@@ -75,7 +75,7 @@ namespace Unity.Game.Behaviours.Actions
 
         void OnGameOver(GameOverEvent evt)
         {
-            m_Repeat = false;
+            m_Active = false;
         }
 
         protected override void OnDestroy()

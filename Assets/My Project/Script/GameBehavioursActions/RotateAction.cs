@@ -30,12 +30,13 @@ namespace Unity.Game.Behaviours.Actions
         protected override void OnValidate()
         {
             base.OnValidate();
-            m_Angle = Random.Range(-m_maxAngle, m_maxAngle);
         }
 
         void Awake()
         {
+            m_Angle = Random.Range(-m_maxAngle, m_maxAngle);
             m_Collider = GetComponent<Collider>();
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ブロードキャスト時に OnGameOver 実行
         }
 
         void FixedUpdate()
@@ -80,6 +81,11 @@ namespace Unity.Game.Behaviours.Actions
                 evt.Fall = false;
                 EventManager.Broadcast(evt);    // GameOverEvent ブロードキャスト
             }
+        }
+
+        void OnGameOver(GameOverEvent evt)
+        {
+            m_Active = false;
         }
     }
 }
