@@ -1,4 +1,3 @@
-using Unity.Game.Player;
 using UnityEngine;
 
 namespace Unity.Game.Behaviours.Actions
@@ -72,24 +71,15 @@ namespace Unity.Game.Behaviours.Actions
             }
         }
 
-        void OnCollisionEnter(Collision collision)
+        void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
-                var player = collision.gameObject.GetComponent<PlayerController>();
-
-                if (player)
-                {
-                    var direction = (collision.transform.position - transform.position).normalized;
-                    //player.Knockback(direction, 5.0f);
-                }
+                GameOverEvent evt = Events.GameOverEvent;
+                evt.Win = false;
+                evt.Fall = false;
+                EventManager.Broadcast(evt);    // GameOverEvent ブロードキャスト
             }
         }
-
-        //public void Knockback(Vector3 direction, float force)
-        //{
-        //    direction.y = 0.5f;  // 少し浮かせる
-        //    velocity = direction.normalized * force;
-        //}
     }
 }

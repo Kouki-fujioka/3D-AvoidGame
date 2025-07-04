@@ -1635,11 +1635,11 @@ GameObject:
   - component: {fileID: 377391475}
   - component: {fileID: 377391474}
   - component: {fileID: 377391473}
-  - component: {fileID: 377391476}
   - component: {fileID: 377391477}
+  - component: {fileID: 377391476}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: RotateCylinder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1674,7 +1674,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2269,7 +2269,7 @@ MonoBehaviour:
   m_Arrow: {fileID: 7359777482543517476, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
   m_ShootPoint: {fileID: 1053908185}
   m_Velocity: 25
-  m_Accuracy: 65
+  m_Accuracy: 75
   m_Lifetime: 8
   m_UseGravity: 1
 --- !u!1 &481724375
@@ -5194,11 +5194,11 @@ GameObject:
   - component: {fileID: 1214586675}
   - component: {fileID: 1214586674}
   - component: {fileID: 1214586673}
-  - component: {fileID: 1214586672}
   - component: {fileID: 1214586676}
+  - component: {fileID: 1214586672}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: RotateCylinder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5252,7 +5252,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -10515,7 +10515,7 @@ MonoBehaviour:
   m_Arrow: {fileID: 7359777482543517476, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
   m_ShootPoint: {fileID: 4411725510977084}
   m_Velocity: 25
-  m_Accuracy: 65
+  m_Accuracy: 75
   m_Lifetime: 8
   m_UseGravity: 1
 --- !u!4 &4940591460406956

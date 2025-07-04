@@ -10,7 +10,7 @@ namespace Unity.Game.Behaviours.Actions
 
         [Header("データ")]
         [SerializeField, Range(1, 100), Tooltip("発射速度")] float m_Velocity = 25f;
-        [SerializeField, Range(0, 100), Tooltip("発射オブジェクト拡散率")] int m_Accuracy = 65;
+        [SerializeField, Range(0, 100), Tooltip("発射オブジェクト拡散率")] int m_Accuracy = 75;
         [SerializeField, Tooltip("発射オブジェクト消滅時間")] float m_Lifetime = 8f;
         [SerializeField, Tooltip("発射オブジェクト重力付与フラグ")] bool m_UseGravity = true;
 
