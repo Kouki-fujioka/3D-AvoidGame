@@ -1,29 +1,29 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Cinemachine;
 
 namespace Unity.Game
 {
     public class InputManager : MonoBehaviour
     {
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("Šî€’l (ã‰º‹“_ˆÚ“®‘¬“x)")] float m_VerticalLookMinSensitivity = 0.5f;
-        [SerializeField, Range(0.25f, 1.0f), Tooltip("ƒXƒeƒbƒv• (ã‰º‹“_ˆÚ“®‘¬“x)")] float m_VerticalLookSensitivityStep = 1.0f;
-        [SerializeField, Tooltip("Šî€’l (¶‰E‹“_ˆÚ“®‘¬“x)")] float m_HorizontalLookMinimumSensitivity = 50.0f;
-        [SerializeField, Range(10.0f, 100.0f), Tooltip("ƒXƒeƒbƒv• (¶‰E‹“_ˆÚ“®‘¬“x)")] float m_HorizontalLookSensitivityStep = 100.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("åŸºæº–å€¤ (ä¸Šä¸‹è¦–ç‚¹ç§»å‹•é€Ÿåº¦)")] float m_VerticalLookMinSensitivity = 0.5f;
+        [SerializeField, Range(0.25f, 1.0f), Tooltip("ã‚¹ãƒ†ãƒƒãƒ—å¹… (ä¸Šä¸‹è¦–ç‚¹ç§»å‹•é€Ÿåº¦)")] float m_VerticalLookSensitivityStep = 1.0f;
+        [SerializeField, Tooltip("åŸºæº–å€¤ (å·¦å³è¦–ç‚¹ç§»å‹•é€Ÿåº¦)")] float m_HorizontalLookMinimumSensitivity = 50.0f;
+        [SerializeField, Range(10.0f, 100.0f), Tooltip("ã‚¹ãƒ†ãƒƒãƒ—å¹… (å·¦å³è¦–ç‚¹ç§»å‹•é€Ÿåº¦)")] float m_HorizontalLookSensitivityStep = 100.0f;
 
         CinemachineFreeLook m_FreeLookCamera;
 
         void Awake()
         {
             m_FreeLookCamera = FindFirstObjectByType<CinemachineFreeLook>();
-            EventManager.AddListener<LookSensitivityUpdateEvent>(OnLookSensitivityUpdate);  // LookSensitivityUpdateEvent ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnLookSensitivityUpdate Às
+            EventManager.AddListener<LookSensitivityUpdateEvent>(OnLookSensitivityUpdate);  // LookSensitivityUpdateEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnLookSensitivityUpdate å®Ÿè¡Œ
         }
 
         void OnLookSensitivityUpdate(LookSensitivityUpdateEvent evt)
         {
             if (m_FreeLookCamera)
             {
-                // ‹“_ˆÚ“®‘¬“xİ’è
+                // è¦–ç‚¹ç§»å‹•é€Ÿåº¦è¨­å®š
                 m_FreeLookCamera.m_XAxis.m_MaxSpeed = m_HorizontalLookMinimumSensitivity + (m_HorizontalLookSensitivityStep * evt.Value);
                 m_FreeLookCamera.m_YAxis.m_MaxSpeed = m_VerticalLookMinSensitivity + (m_VerticalLookSensitivityStep * evt.Value);
             }
@@ -31,7 +31,7 @@ namespace Unity.Game
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<LookSensitivityUpdateEvent>(OnLookSensitivityUpdate);   // OnLookSensitivityUpdate “o˜^‰ğœ
+            EventManager.RemoveListener<LookSensitivityUpdateEvent>(OnLookSensitivityUpdate);   // OnLookSensitivityUpdate ç™»éŒ²è§£é™¤
         }
     }
 }

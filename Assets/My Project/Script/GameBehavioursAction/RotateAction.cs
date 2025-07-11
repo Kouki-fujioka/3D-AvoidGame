@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.Behaviours.Actions
 {
@@ -6,20 +6,20 @@ namespace Unity.Game.Behaviours.Actions
     [RequireComponent(typeof(Rigidbody))]
     public class RotateAction : MovementAction
     {
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("Å‘å‰ñ“]Šp“x")] int m_maxAngle = 360;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("æœ€å¤§å›è»¢è§’åº¦")] int m_maxAngle = 360;
 
         int m_Angle;
         Collider m_Collider;
 
         enum State
         {
-            Rotating,   // ‰ñ“]’†
-            WaitingToRotate // ‰ñ“]‘Ò‹@’†
+            Rotating,   // å›è»¢ä¸­
+            WaitingToRotate // å›è»¢å¾…æ©Ÿä¸­
         }
 
-        State m_State;  // ‰ñ“]ó‘Ô
-        float m_Offset; // —İÏ‰ñ“]—Ê
+        State m_State;  // å›è»¢çŠ¶æ…‹
+        float m_Offset; // ç´¯ç©å›è»¢é‡
 
         protected void Reset()
         {
@@ -36,7 +36,7 @@ namespace Unity.Game.Behaviours.Actions
         {
             m_Angle = Random.Range(-m_maxAngle, m_maxAngle);
             m_Collider = GetComponent<Collider>();
-            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnGameOver Às
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnGameOver å®Ÿè¡Œ
         }
 
         void FixedUpdate()
@@ -47,7 +47,7 @@ namespace Unity.Game.Behaviours.Actions
 
                 if (m_State == State.Rotating)
                 {
-                    var delta = Mathf.Clamp(m_Angle / m_Time * m_CurrentTime, Mathf.Min(-m_Angle, m_Angle), Mathf.Max(-m_Angle, m_Angle)) - m_Offset;   // ‰ñ“]—Ê
+                    var delta = Mathf.Clamp(m_Angle / m_Time * m_CurrentTime, Mathf.Min(-m_Angle, m_Angle), Mathf.Max(-m_Angle, m_Angle)) - m_Offset;   // å›è»¢é‡
                     transform.Rotate(Vector3.up, delta, Space.World);
                     m_Offset += delta;
 
@@ -79,7 +79,7 @@ namespace Unity.Game.Behaviours.Actions
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
                 evt.Fall = false;
-                EventManager.Broadcast(evt);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+                EventManager.Broadcast(evt);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
             }
         }
 

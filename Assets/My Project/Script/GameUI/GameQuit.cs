@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.UI
 {
@@ -8,8 +8,8 @@ namespace Unity.Game.UI
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#else   // ƒQ[ƒ€Às’† (ƒrƒ‹ƒhŒã)
-            Application.Quit(); // ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹
+#else   // ã‚²ãƒ¼ãƒ å®Ÿè¡Œä¸­ (ãƒ“ãƒ«ãƒ‰å¾Œ)
+            Application.Quit(); // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†
 #endif
         }
     }

@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 using Unity.Game.Behaviours.Triggers;
 
@@ -8,9 +8,9 @@ namespace Unity.Game.Behaviours.Actions
     {
         public abstract ObjectiveConfiguration GetDefaultObjectiveConfiguration(Trigger trigger);
 
-        [Header("QÆ")]
-        [SerializeField, Tooltip("Ÿ”sğŒ (ƒ^ƒCƒgƒ‹, à–¾“™)")] List<ObjectiveConfiguration> m_ObjectiveConfigurations = new List<ObjectiveConfiguration>();
-        [SerializeField, Tooltip("‘ÎÛƒgƒŠƒK")] List<Trigger> m_Triggers = new List<Trigger>();
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜ç­‰)")] List<ObjectiveConfiguration> m_ObjectiveConfigurations = new List<ObjectiveConfiguration>();
+        [SerializeField, Tooltip("å¯¾è±¡ãƒˆãƒªã‚¬")] List<Trigger> m_Triggers = new List<Trigger>();
 
         public override void Activate()
         {
@@ -49,7 +49,7 @@ namespace Unity.Game.Behaviours.Actions
         }
 
         /// <summary>
-        /// Ÿ”sğŒ (ƒ^ƒCƒgƒ‹, à–¾“™) ‚ğİ’è
+        /// å‹æ•—æ¡ä»¶ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜ç­‰) ã‚’è¨­å®š
         /// </summary>
         /// <param name="trigger"></param>
         /// <param name="title"></param>

@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,11 +6,11 @@ namespace Unity.Game.Behaviours
 {
     public class BehaviourCoroutineManager : MonoBehaviour
     {
-        static BehaviourCoroutineManager m_Instance;    // ƒVƒ“ƒOƒ‹ƒgƒ“ƒpƒ^[ƒ“
+        static BehaviourCoroutineManager m_Instance;    // ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãƒ‘ã‚¿ãƒ¼ãƒ³
         static readonly Dictionary<Object, Dictionary<string, Coroutine>> s_ExistingCoroutines = new Dictionary<Object, Dictionary<string, Coroutine>>();
 
         /// <summary>
-        /// –¢“o˜^ƒRƒ‹[ƒ`ƒ“Às, “o˜^Ï‚İƒRƒ‹[ƒ`ƒ“’â~
+        /// æœªç™»éŒ²ã‚³ãƒ«ãƒ¼ãƒãƒ³å®Ÿè¡Œ, ç™»éŒ²æ¸ˆã¿ã‚³ãƒ«ãƒ¼ãƒãƒ³åœæ­¢
         /// </summary>
         /// <param name="owner"></param>
         /// <param name="key"></param>
@@ -44,7 +44,7 @@ namespace Unity.Game.Behaviours
 
         void Awake()
         {
-            // ƒVƒ“ƒOƒ‹ƒgƒ“ƒpƒ^[ƒ“ÄŒ»
+            // ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãƒ‘ã‚¿ãƒ¼ãƒ³å†ç¾
             if (m_Instance && m_Instance != this)
             {
                 Destroy(this);

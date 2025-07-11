@@ -1,16 +1,16 @@
-using System;
+ï»¿using System;
 
 namespace Unity.Game
 {
     public interface IObjective
     {
-        string m_Title { get; } // Ÿ”sğŒƒ^ƒCƒgƒ‹
-        string m_Description { get; }   // Ÿ”sğŒà–¾
-        ObjectiveProgressType m_ProgressType { get; }   // Ÿ”sğŒi’»ƒ^ƒCƒv
-        bool m_Lose { get; }    // ”s–kğŒƒtƒ‰ƒO
-        bool m_Hidden { get; }  // Ÿ”sğŒ•\¦ƒtƒ‰ƒO
-        bool IsCompleted { get; }   // Ÿ”sğŒ’B¬ƒtƒ‰ƒO
-        Action<IObjective> OnProgress { get; set; } // ƒfƒŠƒQ[ƒg
-        string GetProgress();   // i’»
+        string m_Title { get; } // å‹æ•—æ¡ä»¶ã‚¿ã‚¤ãƒˆãƒ«
+        string m_Description { get; }   // å‹æ•—æ¡ä»¶èª¬æ˜
+        ObjectiveProgressType m_ProgressType { get; }   // å‹æ•—æ¡ä»¶é€²æ—ã‚¿ã‚¤ãƒ—
+        bool m_Lose { get; }    // æ•—åŒ—æ¡ä»¶ãƒ•ãƒ©ã‚°
+        bool m_Hidden { get; }  // å‹æ•—æ¡ä»¶è¡¨ç¤ºãƒ•ãƒ©ã‚°
+        bool IsCompleted { get; }   // å‹æ•—æ¡ä»¶é”æˆãƒ•ãƒ©ã‚°
+        Action<IObjective> OnProgress { get; set; } // ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
+        string GetProgress();   // é€²æ—
     }
 }

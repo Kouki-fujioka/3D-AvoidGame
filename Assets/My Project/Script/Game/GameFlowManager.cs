@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Cinemachine;
@@ -7,28 +7,28 @@ namespace Unity.Game
 {
     public class GameFlowManager : MonoBehaviour
     {
-        [Header("QÆ")]
+        [Header("å‚ç…§")]
         [SerializeField, Tooltip("BGM")] AudioClip m_AudioClip;
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("ƒQ[ƒ€Ÿ—˜‚Éƒ[ƒh‚·‚éƒV[ƒ“–¼")] string m_WinScene = "Menu Win";
-        [SerializeField, Tooltip("ƒQ[ƒ€Ÿ—˜‚Éƒ[ƒh‚·‚éƒV[ƒ“‚Ö‚Ì‘JˆÚŠÔ")] float m_WinSceneDelay = 6.0f;    // Ÿ—˜ƒAƒjƒ[ƒVƒ‡ƒ“ŠÔŠm•Û
-        [SerializeField, Tooltip("ƒQ[ƒ€”s–k‚Éƒ[ƒh‚·‚éƒV[ƒ“–¼")] string m_LoseScene = "Menu Lose";
-        [SerializeField, Tooltip("ƒQ[ƒ€”s–k‚Éƒ[ƒh‚·‚éƒV[ƒ“‚Ö‚Ì‘JˆÚŠÔ")] float m_LoseSceneDelay = 3.0f;   // ”s–kƒAƒjƒ[ƒVƒ‡ƒ“ŠÔŠm•Û
-        [SerializeField, Tooltip("ƒQ[ƒ€ŠJn‚ÉƒJƒƒ‰‘€ì‚ğ–³Œø‚É‚·‚éŠÔ")] float m_StartGameLockedControllerTime = 0.3f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("ã‚²ãƒ¼ãƒ å‹åˆ©æ™‚ã«ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚·ãƒ¼ãƒ³å")] string m_WinScene = "Menu Win";
+        [SerializeField, Tooltip("ã‚²ãƒ¼ãƒ å‹åˆ©æ™‚ã«ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚·ãƒ¼ãƒ³ã¸ã®é·ç§»æ™‚é–“")] float m_WinSceneDelay = 6.0f;    // å‹åˆ©ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ™‚é–“ç¢ºä¿
+        [SerializeField, Tooltip("ã‚²ãƒ¼ãƒ æ•—åŒ—æ™‚ã«ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚·ãƒ¼ãƒ³å")] string m_LoseScene = "Menu Lose";
+        [SerializeField, Tooltip("ã‚²ãƒ¼ãƒ æ•—åŒ—æ™‚ã«ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚·ãƒ¼ãƒ³ã¸ã®é·ç§»æ™‚é–“")] float m_LoseSceneDelay = 3.0f;   // æ•—åŒ—ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ™‚é–“ç¢ºä¿
+        [SerializeField, Tooltip("ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã«ã‚«ãƒ¡ãƒ©æ“ä½œã‚’ç„¡åŠ¹ã«ã™ã‚‹æ™‚é–“")] float m_StartGameLockedControllerTime = 0.3f;
 
         AudioSource m_AudioSource;
         CinemachineFreeLook m_FreeLookCamera;
-        public static string PreviousScene { get; private set; }    // Œ»ƒV[ƒ“–¼
-        public bool GameIsEnding { get; private set; }  // ƒQ[ƒ€I—¹ƒtƒ‰ƒO
-        float m_GameOverSceneTime;  // ƒV[ƒ“‘JˆÚŠÔ (Ÿ—˜ or ”s–k)
-        string m_GameOverSceneToLoad;   // ƒV[ƒ“–¼ (Ÿ—˜ or ”s–k)
-        string m_ControllerAxisXName;   // ƒJƒƒ‰ x ²–¼
-        string m_ControllerAxisYName;   // ƒJƒƒ‰ y ²–¼
+        public static string PreviousScene { get; private set; }    // ç¾ã‚·ãƒ¼ãƒ³å
+        public bool GameIsEnding { get; private set; }  // ã‚²ãƒ¼ãƒ çµ‚äº†ãƒ•ãƒ©ã‚°
+        float m_GameOverSceneTime;  // ã‚·ãƒ¼ãƒ³é·ç§»æ™‚é–“ (å‹åˆ© or æ•—åŒ—)
+        string m_GameOverSceneToLoad;   // ã‚·ãƒ¼ãƒ³å (å‹åˆ© or æ•—åŒ—)
+        string m_ControllerAxisXName;   // ã‚«ãƒ¡ãƒ© x è»¸å
+        string m_ControllerAxisYName;   // ã‚«ãƒ¡ãƒ© y è»¸å
 
         private void Awake()
         {
-            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnGameOver Às
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnGameOver å®Ÿè¡Œ
             m_AudioSource = GetComponent<AudioSource>();
             m_AudioSource.clip = m_AudioClip;
             m_AudioSource.loop = true;
@@ -40,7 +40,7 @@ namespace Unity.Game
 
             if (m_FreeLookCamera)
             {
-                // ƒJƒƒ‰‘€ì–³Œø
+                // ã‚«ãƒ¡ãƒ©æ“ä½œç„¡åŠ¹
                 m_ControllerAxisXName = m_FreeLookCamera.m_XAxis.m_InputAxisName;
                 m_ControllerAxisYName = m_FreeLookCamera.m_YAxis.m_InputAxisName;
                 m_FreeLookCamera.m_XAxis.m_InputAxisName = "";
@@ -55,7 +55,7 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// ƒQ[ƒ€ŠJn‚©‚çˆê’èŠÔŒo‰ßŒã‚ÉƒJƒƒ‰‘€ì‚ğ—LŒø
+        /// ã‚²ãƒ¼ãƒ é–‹å§‹ã‹ã‚‰ä¸€å®šæ™‚é–“çµŒéå¾Œã«ã‚«ãƒ¡ãƒ©æ“ä½œã‚’æœ‰åŠ¹
         /// </summary>
         /// <returns></returns>
         IEnumerator StartGameLockControll()
@@ -121,26 +121,26 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// ƒvƒŒƒCƒ„‚ğƒY[ƒ€
+        /// ãƒ—ãƒ¬ã‚¤ãƒ¤ã‚’ã‚ºãƒ¼ãƒ 
         /// </summary>
         /// <returns></returns>
         IEnumerator ZoomInOnPlayer()
         {
             if (m_FreeLookCamera)
             {
-                // ƒJƒƒ‰‘€ì–³Œø
+                // ã‚«ãƒ¡ãƒ©æ“ä½œç„¡åŠ¹
                 m_FreeLookCamera.m_XAxis.m_InputAxisValue = 0.0f;
                 m_FreeLookCamera.m_YAxis.m_InputAxisValue = 0.0f;
                 m_FreeLookCamera.m_XAxis.m_InputAxisName = "";
                 m_FreeLookCamera.m_YAxis.m_InputAxisName = "";
-                var zoomFactor = 1.0f;  // ƒY[ƒ€—¦ (1 ~ 0.3)
-                float middleRigZoomFactor = m_FreeLookCamera.m_Orbits[1].m_Radius;  // ‹——£ (ƒJƒƒ‰ ~ ƒvƒŒƒCƒ„)
+                var zoomFactor = 1.0f;  // ã‚ºãƒ¼ãƒ ç‡ (1 ~ 0.3)
+                float middleRigZoomFactor = m_FreeLookCamera.m_Orbits[1].m_Radius;  // è·é›¢ (ã‚«ãƒ¡ãƒ© ~ ãƒ—ãƒ¬ã‚¤ãƒ¤)
 
                 while (zoomFactor > 0.3f)
                 {
                     m_FreeLookCamera.m_YAxis.Value = Mathf.Lerp(m_FreeLookCamera.m_YAxis.Value, 0.6f, 3.0f * Time.deltaTime);
                     zoomFactor -= 0.1f * Time.deltaTime;
-                    m_FreeLookCamera.m_Orbits[1].m_Radius = middleRigZoomFactor * zoomFactor;   // ƒY[ƒ€
+                    m_FreeLookCamera.m_Orbits[1].m_Radius = middleRigZoomFactor * zoomFactor;   // ã‚ºãƒ¼ãƒ 
                     yield return new WaitForEndOfFrame();
                 }
             }
@@ -148,7 +148,7 @@ namespace Unity.Game
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver “o˜^‰ğœ
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver ç™»éŒ²è§£é™¤
         }
     }
 }

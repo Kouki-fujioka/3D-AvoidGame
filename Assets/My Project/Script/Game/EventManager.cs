@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 
 namespace Unity.Game
@@ -10,7 +10,7 @@ namespace Unity.Game
         static readonly Dictionary<Delegate, Action<GameEvent>> s_EventLookups = new Dictionary<Delegate, Action<GameEvent>>();
 
         /// <summary>
-        /// T ƒCƒxƒ“ƒgƒuƒ[ƒhƒLƒƒƒXƒg‚ÉÀs‚·‚éƒƒ\ƒbƒh‚ğ“o˜^
+        /// T ã‚¤ãƒ™ãƒ³ãƒˆãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã«å®Ÿè¡Œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç™»éŒ²
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="evt"></param>
@@ -33,7 +33,7 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// T ƒCƒxƒ“ƒgƒuƒ[ƒhƒLƒƒƒXƒg‚ÉÀs‚·‚éƒƒ\ƒbƒh‚ğíœ
+        /// T ã‚¤ãƒ™ãƒ³ãƒˆãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã«å®Ÿè¡Œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‰Šé™¤
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="evt"></param>
@@ -60,7 +60,7 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// “o˜^Ï‚İ‚Ìƒƒ\ƒbƒh‚ğÀs
+        /// ç™»éŒ²æ¸ˆã¿ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œ
         /// </summary>
         /// <param name="evt"></param>
         public static void Broadcast(GameEvent evt)

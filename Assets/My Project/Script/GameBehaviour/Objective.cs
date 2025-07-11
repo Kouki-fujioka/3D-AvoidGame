@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using Unity.Game.Behaviours.Triggers;
 
@@ -7,16 +7,16 @@ namespace Unity.Game.Behaviours
     public class Objective : MonoBehaviour, IObjective
     {
         public Trigger m_Trigger;
-        public string m_Title { get; set; } // Ÿ”sğŒƒ^ƒCƒgƒ‹
-        public string m_Description { get; set; }   // Ÿ”sğŒà–¾
-        public ObjectiveProgressType m_ProgressType { get; set; }   // Ÿ”sğŒi’»ƒ^ƒCƒv
-        public bool m_Lose { get; set; }    // ”s–kğŒƒtƒ‰ƒO
-        public bool m_Hidden { get; set; }  // Ÿ”sğŒ•\¦ƒtƒ‰ƒO
-        public bool IsCompleted { get; private set; }   // Ÿ”sğŒ’B¬ƒtƒ‰ƒO
-        public Action<IObjective> OnProgress { get; set; }  // ƒfƒŠƒQ[ƒg
+        public string m_Title { get; set; } // å‹æ•—æ¡ä»¶ã‚¿ã‚¤ãƒˆãƒ«
+        public string m_Description { get; set; }   // å‹æ•—æ¡ä»¶èª¬æ˜
+        public ObjectiveProgressType m_ProgressType { get; set; }   // å‹æ•—æ¡ä»¶é€²æ—ã‚¿ã‚¤ãƒ—
+        public bool m_Lose { get; set; }    // æ•—åŒ—æ¡ä»¶ãƒ•ãƒ©ã‚°
+        public bool m_Hidden { get; set; }  // å‹æ•—æ¡ä»¶è¡¨ç¤ºãƒ•ãƒ©ã‚°
+        public bool IsCompleted { get; private set; }   // å‹æ•—æ¡ä»¶é”æˆãƒ•ãƒ©ã‚°
+        public Action<IObjective> OnProgress { get; set; }  // ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
 
         /// <summary>
-        /// i’»‚ğ•Ô‹p
+        /// é€²æ—ã‚’è¿”å´
         /// </summary>
         /// <returns></returns>
         public string GetProgress()
@@ -57,12 +57,12 @@ namespace Unity.Game.Behaviours
         {
             ObjectiveAdded evt = Events.ObjectiveAddedEvent;
             evt.Objective = this;
-            EventManager.Broadcast(evt);    // ObjectiveAdded ƒuƒ[ƒhƒLƒƒƒXƒg
+            EventManager.Broadcast(evt);    // ObjectiveAdded ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
 
             if (m_Trigger)
             {
-                m_Trigger.OnProgress += Progress;   // ƒŠƒXƒi“o˜^
-                m_Trigger.OnActivate += Activate;   // ƒŠƒXƒi“o˜^
+                m_Trigger.OnProgress += Progress;   // ãƒªã‚¹ãƒŠç™»éŒ²
+                m_Trigger.OnActivate += Activate;   // ãƒªã‚¹ãƒŠç™»éŒ²
             }
             else
             {
@@ -71,7 +71,7 @@ namespace Unity.Game.Behaviours
         }
 
         /// <summary>
-        /// ƒeƒLƒXƒg (i’»), ƒtƒ‰ƒO (m_UpdateStatus) XV
+        /// ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—), ãƒ•ãƒ©ã‚° (m_UpdateStatus) æ›´æ–°
         /// </summary>
         void Progress()
         {
@@ -79,7 +79,7 @@ namespace Unity.Game.Behaviours
         }
 
         /// <summary>
-        /// ƒeƒLƒXƒg (i’»), ƒtƒ‰ƒO (IsCompleted, m_UpdateStatus) XV
+        /// ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—), ãƒ•ãƒ©ã‚° (IsCompleted, m_UpdateStatus) æ›´æ–°
         /// </summary>
         void Activate()
         {

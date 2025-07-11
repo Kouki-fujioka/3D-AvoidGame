@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game
 {
@@ -11,7 +11,7 @@ namespace Unity.Game
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
                 evt.Fall = true;
-                EventManager.Broadcast(evt);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+                EventManager.Broadcast(evt);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
             }
         }
     }

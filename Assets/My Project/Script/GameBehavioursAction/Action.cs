@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Game.Behaviours.Triggers;
@@ -11,18 +11,18 @@ namespace Unity.Game.Behaviours.Actions
 {
     public abstract class Action : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("ƒI[ƒfƒBƒIƒNƒŠƒbƒv")] protected AudioClip m_Audio;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¯ãƒªãƒƒãƒ—")] protected AudioClip m_Audio;
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Range(0.0f, 1.0f), Tooltip("ƒI[ƒfƒBƒIƒ{ƒŠƒ…[ƒ€")] protected float m_AudioVolume = 1.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Range(0.0f, 1.0f), Tooltip("ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒœãƒªãƒ¥ãƒ¼ãƒ ")] protected float m_AudioVolume = 1.0f;
 
-        protected bool m_Active;    // ƒAƒNƒVƒ‡ƒ“Àsƒtƒ‰ƒO
-        readonly List<AudioSource> m_AudioSourcesToDestroy = new List<AudioSource>();   // AudioSource ƒIƒuƒWƒFƒNƒg (”j‰ó—p)
-        const float k_AudioRange = 80.0f;   // ƒI[ƒfƒBƒI”ÍˆÍ
+        protected bool m_Active;    // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œãƒ•ãƒ©ã‚°
+        readonly List<AudioSource> m_AudioSourcesToDestroy = new List<AudioSource>();   // AudioSource ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ (ç ´å£Šç”¨)
+        const float k_AudioRange = 80.0f;   // ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªç¯„å›²
 
         /// <summary>
-        /// ƒtƒ‰ƒO (m_Active) XV
+        /// ãƒ•ãƒ©ã‚° (m_Active) æ›´æ–°
         /// </summary>
         public virtual void Activate()
         {
@@ -33,7 +33,7 @@ namespace Unity.Game.Behaviours.Actions
         }
 
         /// <summary>
-        /// ƒV[ƒ““à‚Ì Trigger ƒRƒ“ƒ|[ƒlƒ“ƒg (ƒAƒNƒVƒ‡ƒ“—p) ‚ğ•Ô‹p
+        /// ã‚·ãƒ¼ãƒ³å†…ã® Trigger ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ (ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç”¨) ã‚’è¿”å´
         /// </summary>
         /// <returns></returns>
         public List<Trigger> GetTargetingTriggers()
@@ -66,7 +66,7 @@ namespace Unity.Game.Behaviours.Actions
         }
 
         /// <summary>
-        /// ƒI[ƒfƒBƒIƒNƒŠƒbƒv‚ğÄ¶
+        /// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¯ãƒªãƒƒãƒ—ã‚’å†ç”Ÿ
         /// </summary>
         /// <param name="loop"></param>
         /// <param name="spatial"></param>
@@ -134,7 +134,7 @@ namespace Unity.Game.Behaviours.Actions
         }
 
         /// <summary>
-        /// ƒI[ƒfƒBƒIƒNƒŠƒbƒvÄ¶Œã‚ÉƒI[ƒfƒBƒIƒIƒuƒWƒFƒNƒg‚ğíœ
+        /// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¯ãƒªãƒƒãƒ—å†ç”Ÿå¾Œã«ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤
         /// </summary>
         /// <param name="audioSource"></param>
         /// <returns></returns>

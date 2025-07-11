@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -6,8 +6,8 @@ namespace Unity.Gaame.UI
 {
     public class MenuNavigation : MonoBehaviour
     {
-        public Selectable DefaultSelection; // UI ƒIƒuƒWƒFƒNƒg (‰Šú‘I‘ğ)
-        public bool ForceSelection = false; // ‹­§‘I‘ğƒtƒ‰ƒO
+        public Selectable DefaultSelection; // UI ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ (åˆæœŸé¸æŠ)
+        public bool ForceSelection = false; // å¼·åˆ¶é¸æŠãƒ•ãƒ©ã‚°
 
         void Start()
         {

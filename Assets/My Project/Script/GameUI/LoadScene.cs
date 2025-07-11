@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Unity.Game.UI
@@ -9,18 +9,18 @@ namespace Unity.Game.UI
 
         public void LoadScene()
         {
-            SceneManager.LoadScene(sceneName);  // ƒV[ƒ“‚ğƒ[ƒh
+            SceneManager.LoadScene(sceneName);  // ã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰
         }
 
         public void LoadPreviousScene()
         {
-            if (GameFlowManager.PreviousScene != null)  // ‹ŒƒV[ƒ“‚ª‘¶İ‚·‚éê‡
+            if (GameFlowManager.PreviousScene != null)  // æ—§ã‚·ãƒ¼ãƒ³ãŒå­˜åœ¨ã™ã‚‹å ´åˆ
             {
-                SceneManager.LoadScene(GameFlowManager.PreviousScene);  // ‹ŒƒV[ƒ“‚ğƒ[ƒh
+                SceneManager.LoadScene(GameFlowManager.PreviousScene);  // æ—§ã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰
             }
             else
             {
-                LoadScene();    // ƒV[ƒ“‚ğƒ[ƒh
+                LoadScene();    // ã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰
             }
         }
     }

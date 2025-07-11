@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -6,12 +6,12 @@ namespace Unity.Game.UI
 {
     public class MenuManager : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("ƒƒjƒ…[‰æ–Ê")] GameObject m_Menu = default;
-        [SerializeField, Tooltip("‘€ìà–¾‰æ–Ê")] GameObject m_Controls = default;
-        [SerializeField, Tooltip("‰e—pƒgƒOƒ‹")] Toggle m_ShadowsToggle = default;
-        [SerializeField, Tooltip("FPS —pƒgƒOƒ‹")] Toggle m_FrameRateCounterToggle = default;
-        [SerializeField, Tooltip("‹“_ˆÚ“®‘¬“x—pƒXƒ‰ƒCƒ_")] Slider m_Sensitivity = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”»é¢")] GameObject m_Menu = default;
+        [SerializeField, Tooltip("æ“ä½œèª¬æ˜ç”»é¢")] GameObject m_Controls = default;
+        [SerializeField, Tooltip("å½±ç”¨ãƒˆã‚°ãƒ«")] Toggle m_ShadowsToggle = default;
+        [SerializeField, Tooltip("FPS ç”¨ãƒˆã‚°ãƒ«")] Toggle m_FrameRateCounterToggle = default;
+        [SerializeField, Tooltip("è¦–ç‚¹ç§»å‹•é€Ÿåº¦ç”¨ã‚¹ãƒ©ã‚¤ãƒ€")] Slider m_Sensitivity = default;
 
         FrameRateCounter m_FrameRateCounter;
 
@@ -51,10 +51,10 @@ namespace Unity.Game.UI
             PlayerPrefs.Save();
             LookSensitivityUpdateEvent lookSensitivityUpdateEvent = Events.LookSensitivityUpdateEvent;
             lookSensitivityUpdateEvent.Value = sensitivity;
-            EventManager.Broadcast(lookSensitivityUpdateEvent); // LookSensitivityUpdateEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+            EventManager.Broadcast(lookSensitivityUpdateEvent); // LookSensitivityUpdateEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
         }
 
-        public void CloseMenu() // ƒ{ƒ^ƒ“ (DoneButton) ‰Ÿ‰º
+        public void CloseMenu() // ãƒœã‚¿ãƒ³ (DoneButton) æŠ¼ä¸‹æ™‚
         {
             SetMenuActivation(false);
         }
@@ -84,12 +84,12 @@ namespace Unity.Game.UI
 
             OptionsMenuEvent evt = Events.OptionsMenuEvent;
             evt.Active = active;
-            EventManager.Broadcast(evt);    // OptionsMenuEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+            EventManager.Broadcast(evt);    // OptionsMenuEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
         }
 
         void Update()
         {
-            if (Input.GetButtonDown("Menu"))    // ƒL[ (TAB) ‰Ÿ‰º
+            if (Input.GetButtonDown("Menu"))    // ã‚­ãƒ¼ (TAB) æŠ¼ä¸‹æ™‚
             {
                 ToggleMenu();
             }

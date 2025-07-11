@@ -1,4 +1,4 @@
-namespace Unity.Game
+﻿namespace Unity.Game
 {
     public enum ObjectiveProgressType
     {

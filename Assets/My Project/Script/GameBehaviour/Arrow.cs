@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.Behaviours
 {
@@ -6,19 +6,19 @@ namespace Unity.Game.Behaviours
 
     public class Arrow : MonoBehaviour
     {
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Range(0.0f, 1080.0f), Tooltip("”­ËƒIƒuƒWƒFƒNƒg‰ñ“]‘¬“x")] float m_RotationSpeed = 0.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Range(0.0f, 1080.0f), Tooltip("ç™ºå°„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå›è»¢é€Ÿåº¦")] float m_RotationSpeed = 0.0f;
 
-        public bool Deadly { get; private set; } = true;    // ‘¦€ƒtƒ‰ƒO
-        bool m_Launched;    // ”­Ëƒtƒ‰ƒO
-        bool m_Rotate;  // ‰ñ“]ƒtƒ‰ƒO
-        Vector3 m_Rotation; // ‰ñ“]—Ê
+        public bool Deadly { get; private set; } = true;    // å³æ­»ãƒ•ãƒ©ã‚°
+        bool m_Launched;    // ç™ºå°„ãƒ•ãƒ©ã‚°
+        bool m_Rotate;  // å›è»¢ãƒ•ãƒ©ã‚°
+        Vector3 m_Rotation; // å›è»¢é‡
         Rigidbody m_RigidBody;
         CapsuleCollider m_Collider;
         ParticleSystem m_ParticleSystem;
 
         /// <summary>
-        /// ”­ËƒIƒuƒWƒFƒNƒgÚ×İ’è
+        /// ç™ºå°„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè©³ç´°è¨­å®š
         /// </summary>
         /// <param name="velocity"></param>
         /// <param name="useGravity"></param>
@@ -56,7 +56,7 @@ namespace Unity.Game.Behaviours
                 var c0 = transform.TransformPoint(m_Collider.center - Vector3.forward * (m_Collider.height * 0.5f - m_Collider.radius));
                 var c1 = transform.TransformPoint(m_Collider.center + Vector3.forward * (m_Collider.height * 0.5f - m_Collider.radius));
                 var colliders = Physics.OverlapCapsule(c0, c1, m_Collider.radius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-                var collisions = false; // Õ“Ëƒtƒ‰ƒO
+                var collisions = false; // è¡çªãƒ•ãƒ©ã‚°
 
                 foreach (var collider in colliders)
                 {
@@ -82,7 +82,7 @@ namespace Unity.Game.Behaviours
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation(m_RigidBody.linearVelocity);   // ‰ñ“] (ˆÚ“®•ûŒü)
+                    transform.rotation = Quaternion.LookRotation(m_RigidBody.linearVelocity);   // å›è»¢ (ç§»å‹•æ–¹å‘)
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace Unity.Game.Behaviours
                 GameOverEvent evt = Events.GameOverEvent;
                 evt.Win = false;
                 evt.Fall = false;
-                EventManager.Broadcast(evt);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+                EventManager.Broadcast(evt);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
             }
 
             m_RigidBody.useGravity = true;

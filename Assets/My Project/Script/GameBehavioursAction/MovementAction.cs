@@ -1,14 +1,14 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.Behaviours.Actions
 {
     public abstract class MovementAction : RepeatableAction
     {
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("ƒAƒNƒVƒ‡ƒ“Š®—¹ŠÔ")] protected float m_Time = 5.0f;
-        [SerializeField, Tooltip("Õ“Ë’â~ƒtƒ‰ƒO")] protected bool m_Collide = true;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Œäº†æ™‚é–“")] protected float m_Time = 5.0f;
+        [SerializeField, Tooltip("è¡çªæ™‚åœæ­¢ãƒ•ãƒ©ã‚°")] protected bool m_Collide = true;
 
-        protected float m_CurrentTime;  // Œo‰ßŠÔ
+        protected float m_CurrentTime;  // çµŒéæ™‚é–“
 
         protected override void OnValidate()
         {
@@ -18,7 +18,7 @@ namespace Unity.Game.Behaviours.Actions
 
         protected override void Start()
         {
-            base.Start();   // ƒtƒ‰ƒO (m_Active) ‚ğXV
+            base.Start();   // ãƒ•ãƒ©ã‚° (m_Active) ã‚’æ›´æ–°
             transform.localRotation = Quaternion.Euler(Vector3Int.RoundToInt(transform.localRotation.eulerAngles));
         }
     }

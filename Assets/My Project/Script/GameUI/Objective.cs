@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Unity.Game.UI
@@ -7,20 +7,20 @@ namespace Unity.Game.UI
 
     public class Objective : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("Ÿ”sğŒƒ^ƒCƒgƒ‹")] TMPro.TextMeshProUGUI m_Title = default;
-        [SerializeField, Tooltip("Ÿ”sğŒà–¾")] TMPro.TextMeshProUGUI m_Description = default;
-        [SerializeField, Tooltip("Ÿ”sğŒi’»")] TMPro.TextMeshProUGUI m_Progress = default;
-        [SerializeField, Tooltip("Ÿ”sğŒ’B¬ƒAƒCƒRƒ“")] Image m_CompleteIcon = default;
-        [SerializeField, Tooltip("ƒAƒjƒ[ƒVƒ‡ƒ“ƒJ[ƒu")] AnimationCurve m_MoveCurve = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶ã‚¿ã‚¤ãƒˆãƒ«")] TMPro.TextMeshProUGUI m_Title = default;
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶èª¬æ˜")] TMPro.TextMeshProUGUI m_Description = default;
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶é€²æ—")] TMPro.TextMeshProUGUI m_Progress = default;
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶é”æˆã‚¢ã‚¤ã‚³ãƒ³")] Image m_CompleteIcon = default;
+        [SerializeField, Tooltip("ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚«ãƒ¼ãƒ–")] AnimationCurve m_MoveCurve = default;
 
-        float m_Time;   // Œo‰ßŠÔ
-        const int s_Margin = 25;    // ƒ}[ƒWƒ“
-        const int s_Space = 4;  // ƒXƒy[ƒX (ƒ^ƒCƒgƒ‹ ~ i’»)
+        float m_Time;   // çµŒéæ™‚é–“
+        const int s_Margin = 25;    // ãƒãƒ¼ã‚¸ãƒ³
+        const int s_Space = 4;  // ã‚¹ãƒšãƒ¼ã‚¹ (ã‚¿ã‚¤ãƒˆãƒ« ~ é€²æ—)
         RectTransform m_RectTransform;
 
         /// <summary>
-        /// ƒeƒLƒXƒg (ƒ^ƒCƒgƒ‹, à–¾, i’») ‚ğİ’è
+        /// ãƒ†ã‚­ã‚¹ãƒˆ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜, é€²æ—) ã‚’è¨­å®š
         /// </summary>
         /// <param name="title"></param>
         /// <param name="description"></param>
@@ -29,28 +29,28 @@ namespace Unity.Game.UI
         {
             m_RectTransform = GetComponent<RectTransform>();
 
-            // ƒeƒLƒXƒg (i’») ‚ğİ’è
+            // ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—) ã‚’è¨­å®š
             m_Progress.text = progress;
             m_Progress.ForceMeshUpdate();
 
-            // ƒeƒLƒXƒg (ƒ^ƒCƒgƒ‹) ‚ğİ’è
+            // ãƒ†ã‚­ã‚¹ãƒˆ (ã‚¿ã‚¤ãƒˆãƒ«) ã‚’è¨­å®š
             Vector4 margin = m_Title.margin;
             margin.z = 4 + (string.IsNullOrEmpty(progress) ? 0 : m_Progress.renderedWidth + s_Space);
             m_Title.margin = margin;
             m_Title.text = title;
 
-            // ƒeƒLƒXƒg (à–¾) ‚ğİ’è
+            // ãƒ†ã‚­ã‚¹ãƒˆ (èª¬æ˜) ã‚’è¨­å®š
             m_Description.text = description;
         }
 
         public void OnProgress(IObjective objective)
         {
-            m_Progress.text = objective.GetProgress();  // ƒeƒLƒXƒg (i’») XV
+            m_Progress.text = objective.GetProgress();  // ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—) æ›´æ–°
 
             if (objective.IsCompleted)
             {
                 m_CompleteIcon.gameObject.SetActive(true);
-                objective.OnProgress -= OnProgress; // ƒŠƒXƒi‰ğœ
+                objective.OnProgress -= OnProgress; // ãƒªã‚¹ãƒŠè§£é™¤
             }
         }
 
@@ -58,7 +58,7 @@ namespace Unity.Game.UI
         {
             m_Time += Time.deltaTime;
             var moving = m_MoveCurve.Evaluate(m_Time);
-            m_RectTransform.anchoredPosition = new Vector2((m_RectTransform.sizeDelta.x + s_Margin) * moving, m_RectTransform.anchoredPosition.y);  // ƒXƒ‰ƒCƒhƒCƒ“
+            m_RectTransform.anchoredPosition = new Vector2((m_RectTransform.sizeDelta.x + s_Margin) * moving, m_RectTransform.anchoredPosition.y);  // ã‚¹ãƒ©ã‚¤ãƒ‰ã‚¤ãƒ³
         }
     }
 }

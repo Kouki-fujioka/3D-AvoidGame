@@ -1,16 +1,16 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.UI
 {
     public class GameOverFade : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("ƒLƒƒƒ“ƒoƒXƒOƒ‹[ƒv (ƒQ[ƒ€I—¹Œã‚É‰æ–Ê‚ğƒtƒF[ƒhƒAƒEƒg)")] CanvasGroup m_CanvasGroup = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚°ãƒ«ãƒ¼ãƒ— (ã‚²ãƒ¼ãƒ çµ‚äº†å¾Œã«ç”»é¢ã‚’ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ)")] CanvasGroup m_CanvasGroup = default;
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("Ÿ—˜‚µ‚Ä‚©‚çƒtƒF[ƒhƒAƒEƒgŠJn‚Ü‚Å‚ÌŠÔ")] float m_WinDelay = 4.0f;
-        [SerializeField, Tooltip("”s–k‚µ‚Ä‚©‚çƒtƒF[ƒhƒAƒEƒgŠJn‚Ü‚Å‚ÌŠÔ")] float m_LoseDelay = 2.0f;
-        [SerializeField, Tooltip("ƒtƒF[ƒhƒAƒEƒgŠ®—¹‚Ü‚Å‚ÌŠÔ")] float m_Duration = 1.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("å‹åˆ©ã—ã¦ã‹ã‚‰ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆé–‹å§‹ã¾ã§ã®æ™‚é–“")] float m_WinDelay = 4.0f;
+        [SerializeField, Tooltip("æ•—åŒ—ã—ã¦ã‹ã‚‰ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆé–‹å§‹ã¾ã§ã®æ™‚é–“")] float m_LoseDelay = 2.0f;
+        [SerializeField, Tooltip("ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå®Œäº†ã¾ã§ã®æ™‚é–“")] float m_Duration = 1.0f;
 
         float m_Time;
         bool m_GameOver;
@@ -18,7 +18,7 @@ namespace Unity.Game.UI
 
         void Start()
         {
-            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnGameOver Às
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnGameOver å®Ÿè¡Œ
         }
 
         void Update()
@@ -50,7 +50,7 @@ namespace Unity.Game.UI
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver “o˜^‰ğœ
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver ç™»éŒ²è§£é™¤
         }
     }
 }

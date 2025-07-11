@@ -1,19 +1,19 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.LEGO.UI
 {
     public class UIAnimator : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("ğŒ’B¬ƒAƒCƒRƒ“•\¦—p")] CanvasGroup m_CanvasGroup = default;
-        [SerializeField, Tooltip("ğŒ’B¬ƒAƒCƒRƒ“•\¦—p")] AnimationCurve m_AlphaCurve = default;
-        [SerializeField, Tooltip("ğŒ’B¬ƒAƒCƒRƒ“ƒXƒP[ƒ‹—p")] RectTransform m_RectTransform = default;
-        [SerializeField, Tooltip("ğŒ’B¬ƒAƒCƒRƒ“ƒXƒP[ƒ‹—p")] AnimationCurve m_ScaleCurve = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("æ¡ä»¶é”æˆã‚¢ã‚¤ã‚³ãƒ³è¡¨ç¤ºç”¨")] CanvasGroup m_CanvasGroup = default;
+        [SerializeField, Tooltip("æ¡ä»¶é”æˆã‚¢ã‚¤ã‚³ãƒ³è¡¨ç¤ºç”¨")] AnimationCurve m_AlphaCurve = default;
+        [SerializeField, Tooltip("æ¡ä»¶é”æˆã‚¢ã‚¤ã‚³ãƒ³ã‚¹ã‚±ãƒ¼ãƒ«ç”¨")] RectTransform m_RectTransform = default;
+        [SerializeField, Tooltip("æ¡ä»¶é”æˆã‚¢ã‚¤ã‚³ãƒ³ã‚¹ã‚±ãƒ¼ãƒ«ç”¨")] AnimationCurve m_ScaleCurve = default;
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("ƒXƒP[ƒ‹ŠJnƒfƒBƒŒƒC")] float m_AnimationDelay = 0.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("ã‚¹ã‚±ãƒ¼ãƒ«é–‹å§‹ãƒ‡ã‚£ãƒ¬ã‚¤")] float m_AnimationDelay = 0.0f;
 
-        float m_Time;   // Œo‰ßŠÔ
+        float m_Time;   // çµŒéæ™‚é–“
 
         void Update()
         {

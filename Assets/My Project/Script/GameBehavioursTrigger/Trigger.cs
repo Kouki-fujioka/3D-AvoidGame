@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 using Unity.Game.Behaviours.Actions;
 
@@ -6,18 +6,18 @@ namespace Unity.Game.Behaviours.Triggers
 {
     public abstract class Trigger : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("ƒgƒŠƒK‘ÎÛƒAƒNƒVƒ‡ƒ“"), NonReorderable] protected List<Action> m_SpecificTargetActions = new List<Action>();
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("ãƒˆãƒªã‚¬å¯¾è±¡ã‚¢ã‚¯ã‚·ãƒ§ãƒ³"), NonReorderable] protected List<Action> m_SpecificTargetActions = new List<Action>();
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("ƒgƒŠƒKƒŠƒs[ƒgƒtƒ‰ƒO")] protected bool m_Repeat = true;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("ãƒˆãƒªã‚¬ãƒªãƒ”ãƒ¼ãƒˆãƒ•ãƒ©ã‚°")] protected bool m_Repeat = true;
 
-        public System.Action OnProgress;    // ƒfƒŠƒQ[ƒg
-        public System.Action OnActivate;    // ƒfƒŠƒQ[ƒg
-        public int Progress;    // Œo‰ßŠÔ (i’»)
-        public int Goal;    // ƒgƒŠƒK‹N“®ŠÔ (§ŒÀŠÔ)
-        protected HashSet<Action> m_TargetedActions = new HashSet<Action>();    // ƒgƒŠƒK‘ÎÛƒAƒNƒVƒ‡ƒ“
-        protected bool m_AlreadyTriggered;  // ƒgƒŠƒK‹N“®ƒtƒ‰ƒO
+        public System.Action OnProgress;    // ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
+        public System.Action OnActivate;    // ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
+        public int Progress;    // çµŒéæ™‚é–“ (é€²æ—)
+        public int Goal;    // ãƒˆãƒªã‚¬èµ·å‹•æ™‚é–“ (åˆ¶é™æ™‚é–“)
+        protected HashSet<Action> m_TargetedActions = new HashSet<Action>();    // ãƒˆãƒªã‚¬å¯¾è±¡ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+        protected bool m_AlreadyTriggered;  // ãƒˆãƒªã‚¬èµ·å‹•ãƒ•ãƒ©ã‚°
 
         protected virtual void Awake()
         {
@@ -25,7 +25,7 @@ namespace Unity.Game.Behaviours.Triggers
         }
 
         /// <summary>
-        /// ƒgƒŠƒK‘ÎÛƒAƒNƒVƒ‡ƒ“‚ğ•Ô‹p
+        /// ãƒˆãƒªã‚¬å¯¾è±¡ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¿”å´
         /// </summary>
         /// <returns></returns>
         public HashSet<Action> GetTargetedActions()
@@ -36,7 +36,7 @@ namespace Unity.Game.Behaviours.Triggers
         }
 
         /// <summary>
-        /// ƒgƒŠƒK‹N“®
+        /// ãƒˆãƒªã‚¬èµ·å‹•
         /// </summary>
         protected void ConditionMet()
         {
@@ -62,7 +62,7 @@ namespace Unity.Game.Behaviours.Triggers
                     m_TargetedActions.Remove(action);
                 }
 
-                OnActivate?.Invoke();   // ƒeƒLƒXƒg (i’»), ƒtƒ‰ƒO (IsCompleted, m_UpdateStatus) XV
+                OnActivate?.Invoke();   // ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—), ãƒ•ãƒ©ã‚° (IsCompleted, m_UpdateStatus) æ›´æ–°
                 m_AlreadyTriggered = true;
             }
         }

@@ -1,24 +1,24 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Unity.Game
 {
     public class ObjectiveManager : MonoBehaviour
     {
-        List<IObjective> m_Objectives;  // Ÿ”sğŒ (ƒ^ƒCƒgƒ‹, à–¾, i’»“™) ƒŠƒXƒg
-        bool m_UpdateStatus;    // Ÿ”só‹µXVƒtƒ‰ƒO
-        bool m_Won; // Ÿ—˜ƒtƒ‰ƒO
-        bool m_Lost;    // ”s–kƒtƒ‰ƒO
+        List<IObjective> m_Objectives;  // å‹æ•—æ¡ä»¶ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜, é€²æ—ç­‰) ãƒªã‚¹ãƒˆ
+        bool m_UpdateStatus;    // å‹æ•—çŠ¶æ³æ›´æ–°ãƒ•ãƒ©ã‚°
+        bool m_Won; // å‹åˆ©ãƒ•ãƒ©ã‚°
+        bool m_Lost;    // æ•—åŒ—ãƒ•ãƒ©ã‚°
 
         protected void Awake()
         {
             m_Objectives = new List<IObjective>();
-            EventManager.AddListener<ObjectiveAdded>(OnObjectiveAdded); // ObjectiveAdded ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnObjectiveAdded Às
+            EventManager.AddListener<ObjectiveAdded>(OnObjectiveAdded); // ObjectiveAdded ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnObjectiveAdded å®Ÿè¡Œ
         }
 
         void OnObjectiveAdded(ObjectiveAdded evt)
         {
-            m_Objectives.Add(evt.Objective);    // Ÿ”sğŒ (ƒ^ƒCƒgƒ‹, à–¾, i’»“™) ‚ğ’Ç‰Á
+            m_Objectives.Add(evt.Objective);    // å‹æ•—æ¡ä»¶ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜, é€²æ—ç­‰) ã‚’è¿½åŠ 
             evt.Objective.OnProgress += OnProgress;
             m_UpdateStatus = true;
             m_Won = false;
@@ -26,7 +26,7 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// ƒtƒ‰ƒO (m_UpdateStatus) XV
+        /// ãƒ•ãƒ©ã‚° (m_UpdateStatus) æ›´æ–°
         /// </summary>
         /// <param name="_"></param>
         public void OnProgress(IObjective _)
@@ -35,31 +35,31 @@ namespace Unity.Game
         }
 
         /// <summary>
-        /// Ÿ”só‹µXV
+        /// å‹æ•—çŠ¶æ³æ›´æ–°
         /// </summary>
         void UpdateGameStatus()
         {
-            m_Won = m_Objectives.Exists(objective => !objective.m_Lose);    // Ÿ—˜ğŒ—L ¨ true
+            m_Won = m_Objectives.Exists(objective => !objective.m_Lose);    // å‹åˆ©æ¡ä»¶æœ‰ â†’ true
 
             foreach (IObjective objective in m_Objectives)
             {
-                // | m_Won (XV‘O) | IsCompleted | m_Lose | m_Won (XVŒã) |
+                // | m_Won (æ›´æ–°å‰) | IsCompleted | m_Lose | m_Won (æ›´æ–°å¾Œ) |
                 // ----------------------------------------------------------
-                // |      true      |    true     |  true  |      true      |   ”s–kğŒ’B¬ ¨ Ÿ—˜ğŒ–³ŠÖŒW ¨ true (ˆÛ)
-                // |      true      |    true     |  false |      true      |   Ÿ—˜ğŒ’B¬ ¨ true
-                // |      true      |    false    |  true  |      true      |   ”s–kğŒ–¢’B¬ ¨ Ÿ—˜ğŒ–³ŠÖŒW ¨ true (ˆÛ)
-                // |      true      |    false    |  false |      false     |   Ÿ—˜ğŒ–¢’B¬ ¨ false
-                // |      false     |    true     |  true  |      false     |   Ÿ—˜ğŒ–³ ¨ false
-                // |      false     |    true     |  false |      false     |   Ÿ—˜ğŒ–³ ¨ false
-                // |      false     |    false    |  true  |      false     |   Ÿ—˜ğŒ–³ ¨ false
-                // |      false     |    false    |  false |      false     |   Ÿ—˜ğŒ–³ ¨ false
+                // |      true      |    true     |  true  |      true      |   æ•—åŒ—æ¡ä»¶é”æˆ â†’ å‹åˆ©æ¡ä»¶ç„¡é–¢ä¿‚ â†’ true (ç¶­æŒ)
+                // |      true      |    true     |  false |      true      |   å‹åˆ©æ¡ä»¶é”æˆ â†’ true
+                // |      true      |    false    |  true  |      true      |   æ•—åŒ—æ¡ä»¶æœªé”æˆ â†’ å‹åˆ©æ¡ä»¶ç„¡é–¢ä¿‚ â†’ true (ç¶­æŒ)
+                // |      true      |    false    |  false |      false     |   å‹åˆ©æ¡ä»¶æœªé”æˆ â†’ false
+                // |      false     |    true     |  true  |      false     |   å‹åˆ©æ¡ä»¶ç„¡ â†’ false
+                // |      false     |    true     |  false |      false     |   å‹åˆ©æ¡ä»¶ç„¡ â†’ false
+                // |      false     |    false    |  true  |      false     |   å‹åˆ©æ¡ä»¶ç„¡ â†’ false
+                // |      false     |    false    |  false |      false     |   å‹åˆ©æ¡ä»¶ç„¡ â†’ false
                 m_Won &= (objective.IsCompleted || objective.m_Lose);
-                // | m_Lost (XV‘O) | IsCompleted | m_Lose | m_Lost (XVŒã) |
+                // | m_Lost (æ›´æ–°å‰) | IsCompleted | m_Lose | m_Lost (æ›´æ–°å¾Œ) |
                 // ------------------------------------------------------------
-                // |      false      |    true     |  true  |      true       | ”s–kğŒ’B¬ ¨ true
-                // |      false      |    true     |  false |      false      | Ÿ—˜ğŒ’B¬ ¨ ”s–kğŒ–³ŠÖŒW ¨ false (ˆÛ)
-                // |      false      |    false    |  true  |      false      | ”s–kğŒ–¢’B¬ ¨ false
-                // |      false      |    false    |  false |      false      | Ÿ—˜ğŒ–¢’B¬ ¨ ”s–kğŒ–³ŠÖŒW ¨ false (ˆÛ)
+                // |      false      |    true     |  true  |      true       | æ•—åŒ—æ¡ä»¶é”æˆ â†’ true
+                // |      false      |    true     |  false |      false      | å‹åˆ©æ¡ä»¶é”æˆ â†’ æ•—åŒ—æ¡ä»¶ç„¡é–¢ä¿‚ â†’ false (ç¶­æŒ)
+                // |      false      |    false    |  true  |      false      | æ•—åŒ—æ¡ä»¶æœªé”æˆ â†’ false
+                // |      false      |    false    |  false |      false      | å‹åˆ©æ¡ä»¶æœªé”æˆ â†’ æ•—åŒ—æ¡ä»¶ç„¡é–¢ä¿‚ â†’ false (ç¶­æŒ)
                 m_Lost |= (objective.IsCompleted && objective.m_Lose);
             }
 
@@ -68,11 +68,11 @@ namespace Unity.Game
 
         void Update()
         {
-            if (m_Won || m_Lost)    // ƒQ[ƒ€I—¹
+            if (m_Won || m_Lost)    // ã‚²ãƒ¼ãƒ çµ‚äº†
             {
                 Events.GameOverEvent.Win = m_Won || !m_Lost;
                 Events.GameOverEvent.Fall = false;
-                EventManager.Broadcast(Events.GameOverEvent);   // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg
+                EventManager.Broadcast(Events.GameOverEvent);   // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
                 Destroy(this);
             }
 
@@ -84,7 +84,7 @@ namespace Unity.Game
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded “o˜^‰ğœ
+            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded ç™»éŒ²è§£é™¤
         }
     }
 }

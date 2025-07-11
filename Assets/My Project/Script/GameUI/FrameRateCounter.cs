@@ -1,22 +1,22 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
 
 namespace Unity.Game.UI
 {
     public class FrameRateCounter : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("FPS ƒeƒLƒXƒg")] TextMeshProUGUI m_TextMeshProUGUI = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("FPS ãƒ†ã‚­ã‚¹ãƒˆ")] TextMeshProUGUI m_TextMeshProUGUI = default;
 
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("FPS Œv‘ªŠÔ")] float m_PollingTime = 0.5f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("FPS è¨ˆæ¸¬æ™‚é–“")] float m_PollingTime = 0.5f;
 
-        public bool IsActive => m_TextMeshProUGUI.gameObject.activeSelf;    // ƒAƒNƒeƒBƒuó‘Ô
-        float m_Time;   // Œo‰ßŠÔ
-        int m_FrameCount;   // ƒtƒŒ[ƒ€”
+        public bool IsActive => m_TextMeshProUGUI.gameObject.activeSelf;    // ã‚¢ã‚¯ãƒ†ã‚£ãƒ–çŠ¶æ…‹
+        float m_Time;   // çµŒéæ™‚é–“
+        int m_FrameCount;   // ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 
         /// <summary>
-        /// ƒAƒNƒeƒBƒuó‘Ô•ÏX
+        /// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–çŠ¶æ…‹å¤‰æ›´
         /// </summary>
         /// <param name="show"></param>
         public void Show(bool show)

@@ -1,11 +1,11 @@
-using Unity.Game.Behaviours.Triggers;
+ï»¿using Unity.Game.Behaviours.Triggers;
 
 namespace Unity.Game.Behaviours.Actions
 {
     public class WinAction : ObjectiveAction
     {
         /// <summary>
-        /// Ÿ”sğŒ (ƒ^ƒCƒgƒ‹, à–¾, i’»ƒ^ƒCƒv) ‚ğİ’è
+        /// å‹æ•—æ¡ä»¶ (ã‚¿ã‚¤ãƒˆãƒ«, èª¬æ˜, é€²æ—ã‚¿ã‚¤ãƒ—) ã‚’è¨­å®š
         /// </summary>
         /// <param name="trigger"></param>
         /// <returns></returns>

@@ -1,14 +1,14 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Unity.Game.Behaviours.Triggers
 {
     public class TimerTrigger : Trigger
     {
-        [Header("ƒf[ƒ^")]
-        [SerializeField, Tooltip("ƒgƒŠƒK‹N“®ŠÔ (§ŒÀŠÔ)")] float m_Time = 10.0f;
+        [Header("ãƒ‡ãƒ¼ã‚¿")]
+        [SerializeField, Tooltip("ãƒˆãƒªã‚¬èµ·å‹•æ™‚é–“ (åˆ¶é™æ™‚é–“)")] float m_Time = 10.0f;
 
-        float m_CurrentTime;    // Œ»Œo‰ßŠÔ
-        int m_PreviousProgress; // ‹ŒŒo‰ßŠÔ
+        float m_CurrentTime;    // ç¾çµŒéæ™‚é–“
+        int m_PreviousProgress; // æ—§çµŒéæ™‚é–“
 
         void OnValidate()
         {
@@ -38,7 +38,7 @@ namespace Unity.Game.Behaviours.Triggers
             {
                 if (m_PreviousProgress != Progress)
                 {
-                    OnProgress?.Invoke();   // ƒeƒLƒXƒg (i’»), ƒtƒ‰ƒO (m_UpdateStatus) XV
+                    OnProgress?.Invoke();   // ãƒ†ã‚­ã‚¹ãƒˆ (é€²æ—), ãƒ•ãƒ©ã‚° (m_UpdateStatus) æ›´æ–°
                 }
             }
 

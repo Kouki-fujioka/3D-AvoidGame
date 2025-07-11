@@ -1,50 +1,50 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Unity.Game.UI
 {
     public class ObjectiveHUDManager : MonoBehaviour
     {
-        [Header("QÆ")]
-        [SerializeField, Tooltip("Ÿ”sğŒ•\¦—pƒpƒlƒ‹")] RectTransform m_ObjectivePanel = default;
-        [SerializeField, Tooltip("Ÿ—˜ğŒ")] GameObject m_WinObjectivePrefab = default;
-        [SerializeField, Tooltip("”s–kğŒ")] GameObject m_LoseObjectivePrefab = default;
+        [Header("å‚ç…§")]
+        [SerializeField, Tooltip("å‹æ•—æ¡ä»¶è¡¨ç¤ºç”¨ãƒ‘ãƒãƒ«")] RectTransform m_ObjectivePanel = default;
+        [SerializeField, Tooltip("å‹åˆ©æ¡ä»¶")] GameObject m_WinObjectivePrefab = default;
+        [SerializeField, Tooltip("æ•—åŒ—æ¡ä»¶")] GameObject m_LoseObjectivePrefab = default;
 
-        const int s_TopMargin = 10; // ƒ}[ƒWƒ“
-        const int s_Space = 10; // ƒXƒy[ƒX
-        float m_NextY;  // y À•W
+        const int s_TopMargin = 10; // ãƒãƒ¼ã‚¸ãƒ³
+        const int s_Space = 10; // ã‚¹ãƒšãƒ¼ã‚¹
+        float m_NextY;  // y åº§æ¨™
 
         void Awake()
         {
-            EventManager.AddListener<ObjectiveAdded>(OnObjectiveAdded); // ObjectiveAdded ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnObjectiveAdded Às
-            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ƒuƒ[ƒhƒLƒƒƒXƒg‚É OnGameOver Às
+            EventManager.AddListener<ObjectiveAdded>(OnObjectiveAdded); // ObjectiveAdded ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnObjectiveAdded å®Ÿè¡Œ
+            EventManager.AddListener<GameOverEvent>(OnGameOver);    // GameOverEvent ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆæ™‚ã« OnGameOver å®Ÿè¡Œ
         }
 
         void OnObjectiveAdded(ObjectiveAdded evt)
         {
             if(!evt.Objective.m_Hidden)
             {
-                GameObject go = Instantiate(evt.Objective.m_Lose ? m_LoseObjectivePrefab : m_WinObjectivePrefab, m_ObjectivePanel); // ƒNƒ[ƒ“ (”s–kğŒ or Ÿ—˜ğŒ)
+                GameObject go = Instantiate(evt.Objective.m_Lose ? m_LoseObjectivePrefab : m_WinObjectivePrefab, m_ObjectivePanel); // ã‚¯ãƒ­ãƒ¼ãƒ³ (æ•—åŒ—æ¡ä»¶ or å‹åˆ©æ¡ä»¶)
                 Objective objective = go.GetComponent<Objective>();
                 objective.Initialize(evt.Objective.m_Title, evt.Objective.m_Description, evt.Objective.GetProgress());
                 LayoutRebuilder.ForceRebuildLayoutImmediate(objective.GetComponent<RectTransform>());
                 RectTransform rectTransform = go.GetComponent<RectTransform>();
                 rectTransform.anchoredPosition = new Vector2(0, m_NextY - s_TopMargin);
                 m_NextY -= rectTransform.sizeDelta.y + s_Space;
-                evt.Objective.OnProgress += objective.OnProgress;   // ƒŠƒXƒi“o˜^
+                evt.Objective.OnProgress += objective.OnProgress;   // ãƒªã‚¹ãƒŠç™»éŒ²
             }
         }
 
         void OnGameOver(GameOverEvent evt)
         {
-            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded “o˜^‰ğœ
-            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver “o˜^‰ğœ
+            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded ç™»éŒ²è§£é™¤
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver ç™»éŒ²è§£é™¤
         }
 
         void OnDestroy()
         {
-            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded “o˜^‰ğœ
-            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver “o˜^‰ğœ
+            EventManager.RemoveListener<ObjectiveAdded>(OnObjectiveAdded);  // OnObjectiveAdded ç™»éŒ²è§£é™¤
+            EventManager.RemoveListener<GameOverEvent>(OnGameOver); // OnGameOver ç™»éŒ²è§£é™¤
         }
     }
 }
