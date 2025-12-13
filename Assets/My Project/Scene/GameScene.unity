@@ -319,7 +319,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &54903603
@@ -2857,7 +2857,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 442574445}
-  - component: {fileID: 442574446}
   - component: {fileID: 442574447}
   m_Layer: 0
   m_Name: ChatManager
@@ -2882,26 +2881,6 @@ Transform:
   - {fileID: 1634288463}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &442574446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 442574444}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 996fd2b5881c1374cb589860051f8854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chatPanel: {fileID: 1567077511}
-  inputField: {fileID: 317535865}
-  historyContent: {fileID: 545490492}
-  scrollRect: {fileID: 2049021544}
-  menuManager: {fileID: 1357942428}
-  userMessagePrefab: {fileID: 916890777069809326, guid: c088c06507e86974f88facd20a105243, type: 3}
-  systemMessagePrefab: {fileID: 1432589486219691994, guid: dfbb80d4755407b49a5b21304fdff0be, type: 3}
-  knowledgeBaseText: {fileID: 4900000, guid: 58b3f46ccabe8e74886fcfc347cd9b0c, type: 3}
 --- !u!114 &442574447
 MonoBehaviour:
   m_ObjectHideFlags: 0
