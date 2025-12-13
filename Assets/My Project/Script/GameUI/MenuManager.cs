@@ -7,7 +7,7 @@ namespace Unity.Game.UI
     public class MenuManager : MonoBehaviour
     {
         [Header("参照")]
-        [SerializeField, Tooltip("チャットマネージャー")] ChatManager2 m_ChatManager;
+        [SerializeField, Tooltip("チャットマネージャー")] ChatManager m_ChatManager;
         [SerializeField, Tooltip("メニュー画面")] GameObject m_Menu = default;
         [SerializeField, Tooltip("操作説明画面")] GameObject m_Controls = default;
         [SerializeField, Tooltip("丸影用トグル")] Toggle m_ShadowToggle = default;
