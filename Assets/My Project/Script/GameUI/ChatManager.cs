@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using TMPro;
-using System.Collections.Generic;
+using System.Collections;
+using System.Text;
 
 namespace Unity.Game.UI
 {
@@ -15,53 +17,47 @@ namespace Unity.Game.UI
         [SerializeField] MenuManager menuManager;
 
         [Header("プレハブ設定")]
-        // ★変更点：プレハブを2つ登録できるようにする
-        [SerializeField] GameObject userMessagePrefab;   // 自分の質問用（左寄せ）
-        [SerializeField] GameObject systemMessagePrefab; // システム回答用（右寄せ）
+        [SerializeField] GameObject userMessagePrefab;
+        [SerializeField] GameObject systemMessagePrefab;
 
         [Header("データ")]
-        [SerializeField] TextAsset knowledgeBaseText;
+        [SerializeField] TextAsset knowledgeBaseText; // ゲームの知識データ
+
+        [Header("Gemini設定")]
+        [SerializeField] string geminiApiKey = "ここにAPIキー";
+        [SerializeField] string geminiModel = "gemini-1.5-flash";
 
         private bool isChatActive = false;
         private bool canOpenChat = true;
+
+        // API URL
+        private const string BaseUrl = "https://generativelanguage.googleapis.com/v1beta/models/";
+
         public bool IsActive => isChatActive;
-        private string[] knowledgeChunks;
 
         void Start()
         {
             chatPanel.SetActive(false);
-            if (knowledgeBaseText != null)
-            {
-                knowledgeChunks = knowledgeBaseText.text
-                    .Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-            }
             inputField.onSubmit.AddListener(OnSubmitChat);
         }
 
         void Update()
         {
-            // 1. 時間が止まっている（メニュー中など）場合
-            if (Time.timeScale == 0f)
+            // メニュー中のガード処理
+            if (Time.timeScale == 0f && !isChatActive)
             {
-                // 「今はダメ」というフラグを立てておく
                 canOpenChat = false;
                 return;
             }
-
-            // 2. 時間が動き出した瞬間（メニューを閉じた直後のフレーム）
             if (!canOpenChat)
             {
-                // 1フレームだけ入力を無視して、次のフレームからOKにする（ここでリターン）
                 canOpenChat = true;
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                if (menuManager != null && menuManager.IsActive)
-                {
-                    return;
-                }
+                if (menuManager != null && menuManager.IsActive) return;
 
                 if (!isChatActive) ToggleChat(true);
                 else if (!inputField.isFocused) inputField.ActivateInputField();
@@ -99,73 +95,131 @@ namespace Unity.Game.UI
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                ToggleChat(false); // 空でEnterなら閉じる
+                ToggleChat(false);
                 return;
             }
 
-            // 1. 自分の質問を表示（isUser = true）
-            // "You:" などの接頭辞はUIで左右分かれるので消してもOKです
+            // 1. 自分の質問を表示
             AddMessageToLog(text, true);
 
-            // 2. 回答を検索して表示（isUser = false）
-            string answer = SearchAnswer(text);
-            AddMessageToLog(answer, false);
+            // 2. Geminiに「テキスト全文」と「質問」を丸投げする
+            // （簡易検索は削除し、AIに判断を委ねる）
+            StartCoroutine(CallGeminiSmart(text));
 
             inputField.text = "";
             inputField.ActivateInputField();
         }
 
-        string SearchAnswer(string query)
-        {
-            if (knowledgeChunks == null || knowledgeChunks.Length == 0) return "データベースがありません。";
-
-            var keywords = query.Split(new[] { ' ', '　' }, System.StringSplitOptions.RemoveEmptyEntries);
-            string bestMatch = null;
-            int maxScore = 0;
-
-            foreach (var line in knowledgeChunks)
-            {
-                int score = 0;
-                foreach (var keyword in keywords)
-                    if (line.Contains(keyword)) score++;
-
-                if (score > maxScore)
-                {
-                    maxScore = score;
-                    bestMatch = line;
-                }
-            }
-            return maxScore > 0 ? bestMatch : "関連する情報が見つかりませんでした。";
-        }
-
-        //// ★変更点：isUserフラグを追加
         void AddMessageToLog(string text, bool isUser)
         {
-            // フラグによって使うプレハブを変える
             GameObject prefabToUse = isUser ? userMessagePrefab : systemMessagePrefab;
-
             GameObject newMsg = Instantiate(prefabToUse, historyContent);
 
             var tmp = newMsg.GetComponent<TextMeshProUGUI>();
-            if (tmp != null)
-            {
-                tmp.text = text;
-            }
+            if (tmp != null) tmp.text = text;
 
-            LayoutRebuilder.ForceRebuildLayoutImmediate(newMsg.GetComponent<RectTransform>());
-
-            if (historyContent != null)
-            {
-                LayoutRebuilder.ForceRebuildLayoutImmediate(historyContent.GetComponent<RectTransform>());
-            }
-
-            StartCoroutine(ScrollToBottom());
+            StartCoroutine(UpdateLayoutAndScroll(newMsg));
         }
 
-        System.Collections.IEnumerator ScrollToBottom()
+        IEnumerator UpdateLayoutAndScroll(GameObject msgObj)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(msgObj.GetComponent<RectTransform>());
+            if (historyContent != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(historyContent.GetComponent<RectTransform>());
+            yield return null;
             scrollRect.verticalNormalizedPosition = 0f;
+        }
+
+        // ★ここが核心部分：賢いGemini呼び出し
+        IEnumerator CallGeminiSmart(string userMessage)
+        {
+            // txtの中身を取得（なければ空文字）
+            string contextData = knowledgeBaseText != null ? knowledgeBaseText.text : "";
+
+            // プロンプト作成：AIへの条件付き命令
+            // 「Contextを優先しろ。でも載ってないなら普通に答えろ」という指示
+            string prompt = $@"
+あなたはゲーム内のアシスタントAIです。
+以下の【Context（資料）】を読み、ユーザーの【Question（質問）】に答えてください。
+
+### ルール
+1. もし質問の答えが【Context】の中にある情報で説明できるなら、その情報を使って回答してください。
+2. もし質問が【Context】の内容と無関係、あるいは【Context】に答えがない場合は、【Context】を無視して、あなたの一般的な知識で回答してください。
+3. 回答は自然な日本語で行ってください。「資料によると」などの前置きは不要です。
+
+【Context】
+{contextData}
+
+【Question】
+{userMessage}
+";
+
+            // JSON作成
+            string jsonBody = "{\"contents\":[{\"parts\":[{\"text\":\"" + EscapeJson(prompt) + "\"}]}]}";
+            byte[] rawData = Encoding.UTF8.GetBytes(jsonBody);
+
+            string url = $"{BaseUrl}{geminiModel}:generateContent?key={geminiApiKey}";
+
+            using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+            {
+                request.uploadHandler = new UploadHandlerRaw(rawData);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                yield return request.SendWebRequest();
+
+                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError("通信エラー: " + request.error);
+                    AddMessageToLog("通信エラーが発生しました。", false);
+                }
+                else
+                {
+                    string jsonResponse = request.downloadHandler.text;
+                    string answer = ExtractAnswer(jsonResponse);
+                    AddMessageToLog(answer, false);
+                }
+            }
+        }
+
+        // JSONエスケープ
+        private string EscapeJson(string str)
+        {
+            if (str == null) return "";
+            return str
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"")
+                .Replace("\n", "\\n")
+                .Replace("\r", "")
+                .Replace("\t", "\\t");
+        }
+
+        // 回答抽出
+        private string ExtractAnswer(string json)
+        {
+            string searchKey = "\"text\": \"";
+            int startIndex = json.IndexOf(searchKey);
+            if (startIndex == -1) return "エラー：回答が見つかりませんでした。";
+
+            startIndex += searchKey.Length;
+
+            int endIndex = startIndex;
+            bool isEscaped = false;
+
+            for (int i = startIndex; i < json.Length; i++)
+            {
+                if (json[i] == '\\') isEscaped = !isEscaped;
+                else if (json[i] == '"' && !isEscaped)
+                {
+                    endIndex = i;
+                    break;
+                }
+                else isEscaped = false;
+            }
+
+            string result = json.Substring(startIndex, endIndex - startIndex);
+            return result.Replace("\\n", "\n").Replace("\\\"", "\"").Replace("\\t", "\t").Replace("\\\\", "\\");
         }
     }
 }
