@@ -12,6 +12,7 @@ namespace Unity.Game.UI
         [SerializeField] TMP_InputField inputField;
         [SerializeField] Transform historyContent;
         [SerializeField] ScrollRect scrollRect;
+        [SerializeField] MenuManager menuManager;
 
         [Header("プレハブ設定")]
         // ★変更点：プレハブを2つ登録できるようにする
@@ -22,6 +23,8 @@ namespace Unity.Game.UI
         [SerializeField] TextAsset knowledgeBaseText;
 
         private bool isChatActive = false;
+        private bool canOpenChat = true;
+        public bool IsActive => isChatActive;
         private string[] knowledgeChunks;
 
         void Start()
@@ -37,8 +40,29 @@ namespace Unity.Game.UI
 
         void Update()
         {
+            // 1. 時間が止まっている（メニュー中など）場合
+            if (Time.timeScale == 0f)
+            {
+                // 「今はダメ」というフラグを立てておく
+                canOpenChat = false;
+                return;
+            }
+
+            // 2. 時間が動き出した瞬間（メニューを閉じた直後のフレーム）
+            if (!canOpenChat)
+            {
+                // 1フレームだけ入力を無視して、次のフレームからOKにする（ここでリターン）
+                canOpenChat = true;
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                if (menuManager != null && menuManager.IsActive)
+                {
+                    return;
+                }
+
                 if (!isChatActive) ToggleChat(true);
                 else if (!inputField.isFocused) inputField.ActivateInputField();
             }
