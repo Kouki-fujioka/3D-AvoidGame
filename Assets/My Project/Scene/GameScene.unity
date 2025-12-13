@@ -566,7 +566,7 @@ GameObject:
   - component: {fileID: 86987106}
   m_Layer: 7
   m_Name: Rock 3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2266,7 +2266,7 @@ MonoBehaviour:
   m_AudioVolume: 1
   m_Pause: 0.25
   m_Repeat: 1
-  m_Arrow: {fileID: 7359777482543517476, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
+  m_Arrow: {fileID: 1480203556529002276, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
   m_ShootPoint: {fileID: 1053908185}
   m_Velocity: 25
   m_Accuracy: 75
@@ -4079,7 +4079,7 @@ GameObject:
   - component: {fileID: 880088438}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: RotateCylinder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4191,7 +4191,7 @@ GameObject:
   - component: {fileID: 894679774}
   m_Layer: 7
   m_Name: Rock 1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5893,7 +5893,7 @@ GameObject:
   - component: {fileID: 1327024609}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6104,9 +6104,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Menu: {fileID: 725689039}
   m_Controls: {fileID: 825819347}
-  m_ShadowsToggle: {fileID: 1933031921}
+  m_ShadowToggle: {fileID: 1933031921}
   m_FrameRateCounterToggle: {fileID: 616792640}
   m_Sensitivity: {fileID: 481724377}
+  m_UseRoundShadow: 1
 --- !u!1 &1394892780
 GameObject:
   m_ObjectHideFlags: 0
@@ -6499,7 +6500,7 @@ GameObject:
   - component: {fileID: 1514658077}
   m_Layer: 7
   m_Name: Rock 3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6993,7 +6994,7 @@ GameObject:
   - component: {fileID: 1637116415}
   m_Layer: 7
   m_Name: Rock 3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -8090,7 +8091,7 @@ GameObject:
   - component: {fileID: 1806146514}
   m_Layer: 7
   m_Name: Rock 3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -8691,7 +8692,7 @@ GameObject:
   - component: {fileID: 1876142807}
   m_Layer: 7
   m_Name: Rock 1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10512,7 +10513,7 @@ MonoBehaviour:
   m_AudioVolume: 1
   m_Pause: 0.25
   m_Repeat: 1
-  m_Arrow: {fileID: 7359777482543517476, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
+  m_Arrow: {fileID: 1480203556529002276, guid: 054cfbc98691e4a7f87913e2bf62d522, type: 3}
   m_ShootPoint: {fileID: 4411725510977084}
   m_Velocity: 25
   m_Accuracy: 75
@@ -12879,5 +12880,5 @@ SceneRoots:
   - {fileID: 1681859265}
   - {fileID: 202976651}
   - {fileID: 1788753645}
-  - {fileID: 1686912333}
   - {fileID: 207421642}
+  - {fileID: 1686912333}

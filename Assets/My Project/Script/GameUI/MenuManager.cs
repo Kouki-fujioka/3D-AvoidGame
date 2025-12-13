@@ -9,14 +9,18 @@ namespace Unity.Game.UI
         [Header("参照")]
         [SerializeField, Tooltip("メニュー画面")] GameObject m_Menu = default;
         [SerializeField, Tooltip("操作説明画面")] GameObject m_Controls = default;
-        [SerializeField, Tooltip("影用トグル")] Toggle m_ShadowsToggle = default;
+        [SerializeField, Tooltip("丸影用トグル")] Toggle m_ShadowToggle = default;
         [SerializeField, Tooltip("FPS 用トグル")] Toggle m_FrameRateCounterToggle = default;
         [SerializeField, Tooltip("視点移動速度用スライダ")] Slider m_Sensitivity = default;
+
+        [Header("データ")]
+        [SerializeField, Tooltip("丸影使用フラグ")] bool m_UseRoundShadow = true;
 
         FrameRateCounter m_FrameRateCounter;
 
         void Start()
         {
+            PlayerPrefs.SetInt("Dev_UseRoundShadow", m_UseRoundShadow ? 1 : 0);
             m_FrameRateCounter = FindFirstObjectByType<FrameRateCounter>();
 
             if (m_FrameRateCounter == null)
@@ -24,25 +28,56 @@ namespace Unity.Game.UI
                 Debug.LogError("FrameRateCounter is null");
             }
 
-            m_Menu.SetActive(false);
-            m_ShadowsToggle.SetIsOnWithoutNotify(QualitySettings.shadows != ShadowQuality.Disable);
-            m_ShadowsToggle.onValueChanged.AddListener(OnShadowsChanged);
             m_FrameRateCounterToggle.SetIsOnWithoutNotify(m_FrameRateCounter.IsActive);
             m_FrameRateCounterToggle.onValueChanged.AddListener(OnFrameRateCounterChanged);
+
+            if (m_UseRoundShadow)
+            {
+                bool isRoundShadowActive = PlayerPrefs.GetInt("RoundShadow", 1) == 1;
+                QualitySettings.shadows = ShadowQuality.Disable;    // 影無効
+                m_ShadowToggle.SetIsOnWithoutNotify(isRoundShadowActive);
+                m_ShadowToggle.onValueChanged.AddListener(OnRoundShadowChanged);
+                RoundShadowSettingEvent roundShadowSettingEvent = Events.RoundShadowSettingEvent;
+                roundShadowSettingEvent.Active = isRoundShadowActive;
+                EventManager.Broadcast(roundShadowSettingEvent);
+            }
+            else
+            {
+                RoundShadowSettingEvent roundShadowSettingEvent = Events.RoundShadowSettingEvent;
+                roundShadowSettingEvent.Active = false;
+                EventManager.Broadcast(roundShadowSettingEvent);
+                bool isNormalShadowActive = PlayerPrefs.GetInt("NormalShadow", 1) == 1;
+                QualitySettings.shadows = isNormalShadowActive ? ShadowQuality.All : ShadowQuality.Disable;
+                m_ShadowToggle.SetIsOnWithoutNotify(isNormalShadowActive);
+                m_ShadowToggle.onValueChanged.AddListener(OnNormalShadowChanged);
+            }
+
             var defaultSensitivity = PlayerPrefs.GetFloat("Sensitivity", 5.0f);
             m_Sensitivity.SetValueWithoutNotify(defaultSensitivity);
             m_Sensitivity.onValueChanged.AddListener(OnSensitivityChanged);
             OnSensitivityChanged(defaultSensitivity);
-        }
-
-        void OnShadowsChanged(bool value)
-        {
-            QualitySettings.shadows = value ? ShadowQuality.All : ShadowQuality.Disable;
+            m_Menu.SetActive(false);
         }
 
         void OnFrameRateCounterChanged(bool value)
         {
             m_FrameRateCounter.Show(value);
+        }
+
+        void OnNormalShadowChanged(bool value)
+        {
+            PlayerPrefs.SetInt("NormalShadow", value ? 1 : 0);
+            PlayerPrefs.Save();
+            QualitySettings.shadows = value ? ShadowQuality.All : ShadowQuality.Disable;
+        }
+
+        void OnRoundShadowChanged(bool value)
+        {
+            PlayerPrefs.SetInt("RoundShadow", value ? 1 : 0);
+            PlayerPrefs.Save();
+            RoundShadowSettingEvent roundShadowSettingEvent = Events.RoundShadowSettingEvent;
+            roundShadowSettingEvent.Active = value;
+            EventManager.Broadcast(roundShadowSettingEvent);
         }
 
         void OnSensitivityChanged(float sensitivity)
