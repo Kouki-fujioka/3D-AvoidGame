@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.defios.llamacppunity": {
-      "version": "https://github.com/DefiosLab/LlamaCppUnity.git?path=/Packages/",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "c078c05ec138f4cf63388dfc84d7e8ef937561ca"
-    },
     "com.unity.ai.navigation": {
       "version": "2.0.6",
       "depth": 0,
