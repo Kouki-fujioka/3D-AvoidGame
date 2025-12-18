@@ -8,12 +8,14 @@ namespace Unity.Game.Behaviours.Actions
     {
         [Header("データ")]
         [SerializeField, Tooltip("最大回転角度")] int m_maxAngle = 360;
+        [SerializeField, Tooltip("開始直後待機時間")] float m_InitialDelay = 1.0f;
 
         int m_Angle;
         Collider m_Collider;
 
         enum State
         {
+            InitialWaiting, // 開始直後待機中
             Rotating,   // 回転中
             WaitingToRotate // 回転待機中
         }
@@ -25,11 +27,13 @@ namespace Unity.Game.Behaviours.Actions
         {
             m_Time = 5.0f;
             m_Pause = 0.0f;
+            m_InitialDelay = 1.0f;
         }
 
         protected override void OnValidate()
         {
             base.OnValidate();
+            m_InitialDelay = Mathf.Max(0.0f, m_InitialDelay);
         }
 
         void Awake()
@@ -44,6 +48,15 @@ namespace Unity.Game.Behaviours.Actions
             if (m_Active)
             {
                 m_CurrentTime += Time.fixedDeltaTime;
+
+                if (m_State == State.InitialWaiting)
+                {
+                    if (m_CurrentTime >= m_InitialDelay)
+                    {
+                        m_CurrentTime -= m_InitialDelay;
+                        m_State = State.Rotating;
+                    }
+                }
 
                 if (m_State == State.Rotating)
                 {
