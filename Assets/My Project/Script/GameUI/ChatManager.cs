@@ -21,29 +21,34 @@ namespace Unity.Game.UI
         [SerializeField] GameObject systemMessagePrefab;
 
         [Header("データ")]
-        [SerializeField] TextAsset knowledgeBaseText; // ゲームの知識データ
+        [SerializeField] TextAsset knowledgeBaseText;
 
-        [Header("Gemini設定")]
-        [SerializeField] string geminiApiKey = "ここにAPIキー";
-        [SerializeField] string geminiModel = "gemini-1.5-flash";
+        [Header("AI設定")]
+        [SerializeField] string geminiModel = "gemini-2.5-flash"; // 2.5を使用
 
+        // API URL (v1betaを使用)
+        private const string BaseUrl = "https://generativelanguage.googleapis.com/v1beta/models/";
+
+        // 内部変数
+        private string currentApiKey = "";
+        private const string PREFS_KEY_NAME = "PlayerGeminiApiKey";
         private bool isChatActive = false;
         private bool canOpenChat = true;
-
-        // API URL
-        private const string BaseUrl = "https://generativelanguage.googleapis.com/v1beta/models/";
 
         public bool IsActive => isChatActive;
 
         void Start()
         {
             chatPanel.SetActive(false);
-            inputField.onSubmit.AddListener(OnSubmitChat);
+            if (inputField != null) inputField.onSubmit.AddListener(OnSubmitChat);
+
+            // 保存されたキーを読み込む
+            currentApiKey = PlayerPrefs.GetString(PREFS_KEY_NAME, "");
+            UpdateInputPlaceholder();
         }
 
         void Update()
         {
-            // メニュー中のガード処理
             if (Time.timeScale == 0f && !isChatActive)
             {
                 canOpenChat = false;
@@ -58,7 +63,6 @@ namespace Unity.Game.UI
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 if (menuManager != null && menuManager.IsActive) return;
-
                 if (!isChatActive) ToggleChat(true);
                 else if (!inputField.isFocused) inputField.ActivateInputField();
             }
@@ -80,6 +84,7 @@ namespace Unity.Game.UI
                 Cursor.visible = true;
                 inputField.text = "";
                 inputField.ActivateInputField();
+                UpdateInputPlaceholder();
             }
             else
             {
@@ -91,21 +96,69 @@ namespace Unity.Game.UI
             }
         }
 
+        // プレースホルダー更新
+        void UpdateInputPlaceholder()
+        {
+            var placeholderText = inputField.placeholder as TextMeshProUGUI;
+            if (placeholderText != null)
+            {
+                if (string.IsNullOrEmpty(currentApiKey))
+                {
+                    placeholderText.text = "Enter API Key...";
+                    inputField.contentType = TMP_InputField.ContentType.Password;
+                }
+                else
+                {
+                    placeholderText.text = "Enter text...";
+                    inputField.contentType = TMP_InputField.ContentType.Standard;
+                }
+                inputField.ForceLabelUpdate();
+            }
+        }
+
         void OnSubmitChat(string text)
         {
+            // 空白チェック
             if (string.IsNullOrWhiteSpace(text))
             {
                 ToggleChat(false);
                 return;
             }
 
-            // 1. 自分の質問を表示
+            // ★リセット機能
+            if (text.Trim() == "/reset")
+            {
+                PlayerPrefs.DeleteKey(PREFS_KEY_NAME);
+                PlayerPrefs.Save();
+                currentApiKey = "";
+                AddMessageToLog("★APIキーをリセットしました。", false);
+                UpdateInputPlaceholder();
+                inputField.text = "";
+                inputField.ActivateInputField();
+                return;
+            }
+
+            // ★APIキー保存処理（まだキーがない場合）
+            if (string.IsNullOrEmpty(currentApiKey))
+            {
+                // 余計な文字を削除して保存
+                string newKey = text.Trim().Replace("\n", "").Replace("\r", "").Replace(" ", "");
+                if (!string.IsNullOrEmpty(newKey))
+                {
+                    currentApiKey = newKey;
+                    PlayerPrefs.SetString(PREFS_KEY_NAME, currentApiKey);
+                    PlayerPrefs.Save();
+                    AddMessageToLog("APIキーを保存しました。", false);
+                    UpdateInputPlaceholder();
+                }
+                inputField.text = "";
+                inputField.ActivateInputField();
+                return;
+            }
+
+            // 通常チャット処理
             AddMessageToLog(text, true);
-
-            // 2. Geminiに「テキスト全文」と「質問」を丸投げする
-            // （簡易検索は削除し、AIに判断を委ねる）
             StartCoroutine(CallGeminiSmart(text));
-
             inputField.text = "";
             inputField.ActivateInputField();
         }
@@ -115,7 +168,8 @@ namespace Unity.Game.UI
             GameObject prefabToUse = isUser ? userMessagePrefab : systemMessagePrefab;
             GameObject newMsg = Instantiate(prefabToUse, historyContent);
 
-            var tmp = newMsg.GetComponent<TextMeshProUGUI>();
+            // 親ではなく、子（Bubbleの中）にあるテキストを探す
+            var tmp = newMsg.GetComponentInChildren<TextMeshProUGUI>();
             if (tmp != null) tmp.text = text;
 
             StartCoroutine(UpdateLayoutAndScroll(newMsg));
@@ -131,22 +185,19 @@ namespace Unity.Game.UI
             scrollRect.verticalNormalizedPosition = 0f;
         }
 
-        // ★ここが核心部分：賢いGemini呼び出し
+        // ★ChatManager2.cs をベースにした通信処理
         IEnumerator CallGeminiSmart(string userMessage)
         {
-            // txtの中身を取得（なければ空文字）
             string contextData = knowledgeBaseText != null ? knowledgeBaseText.text : "";
 
-            // プロンプト作成：AIへの条件付き命令
-            // 「Contextを優先しろ。でも載ってないなら普通に答えろ」という指示
+            // プロンプト（ChatManager2準拠）
             string prompt = $@"
 あなたはゲーム内のアシスタントAIです。
 以下の【Context（資料）】を読み、ユーザーの【Question（質問）】に答えてください。
-
 ### ルール
 1. もし質問の答えが【Context】の中にある情報で説明できるなら、その情報を使って回答してください。
 2. もし質問が【Context】の内容と無関係、あるいは【Context】に答えがない場合は、【Context】を無視して、あなたの一般的な知識で回答してください。
-3. 回答は自然な日本語で行ってください。「資料によると」などの前置きは不要です。
+3. 回答は自然な日本語で行ってください。
 
 【Context】
 {contextData}
@@ -155,12 +206,27 @@ namespace Unity.Game.UI
 {userMessage}
 ";
 
-            // JSON作成
-            string jsonBody = "{\"contents\":[{\"parts\":[{\"text\":\"" + EscapeJson(prompt) + "\"}]}]}";
+            // ★JSON作成：ChatManager2をベースにしつつ、Gemini 2.5対応のため "role": "user" を追加
+            // （2.5系はrole指定がないと400エラーになることがあるため、ここだけは安全策をとります）
+            string jsonBody = $@"
+            {{
+                ""contents"": [
+                    {{
+                        ""role"": ""user"",
+                        ""parts"": [
+                            {{ ""text"": ""{EscapeJson(prompt)}"" }}
+                        ]
+                    }}
+                ],
+                ""generationConfig"": {{
+                    ""temperature"": 1
+                }}
+            }}";
+
             byte[] rawData = Encoding.UTF8.GetBytes(jsonBody);
+            string url = $"{BaseUrl}{geminiModel}:generateContent?key={currentApiKey}";
 
-            string url = $"{BaseUrl}{geminiModel}:generateContent?key={geminiApiKey}";
-
+            // ChatManager2と同じ通信設定
             using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
             {
                 request.uploadHandler = new UploadHandlerRaw(rawData);
@@ -171,19 +237,34 @@ namespace Unity.Game.UI
 
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
                 {
-                    Debug.LogError("通信エラー: " + request.error);
-                    AddMessageToLog("通信エラーが発生しました。", false);
+                    string errorDetails = request.downloadHandler.text;
+                    Debug.LogError($"通信エラー: {errorDetails}");
+
+                    // エラー時のキー削除判定
+                    if (errorDetails.Contains("API_KEY_INVALID") || errorDetails.Contains("API key not valid") || request.responseCode == 403)
+                    {
+                        AddMessageToLog("APIキーが無効です。/reset と入力して再設定してください。", false);
+                        PlayerPrefs.DeleteKey(PREFS_KEY_NAME);
+                        currentApiKey = "";
+                        UpdateInputPlaceholder();
+                    }
+                    else
+                    {
+                        AddMessageToLog($"エラー({request.responseCode})が発生しました。", false);
+                    }
                 }
                 else
                 {
+                    // ★ChatManager2.cs のExtractAnswerを使って回答を抽出
                     string jsonResponse = request.downloadHandler.text;
+                    Debug.Log("受信データ: " + jsonResponse); // 確認用ログ
                     string answer = ExtractAnswer(jsonResponse);
                     AddMessageToLog(answer, false);
                 }
             }
         }
 
-        // JSONエスケープ
+        // ★ChatManager2.cs からそのまま移植したエスケープ処理
         private string EscapeJson(string str)
         {
             if (str == null) return "";
@@ -195,7 +276,7 @@ namespace Unity.Game.UI
                 .Replace("\t", "\\t");
         }
 
-        // 回答抽出
+        // ★ChatManager2.cs からそのまま移植した抽出処理（これが動いていたロジック）
         private string ExtractAnswer(string json)
         {
             string searchKey = "\"text\": \"";
