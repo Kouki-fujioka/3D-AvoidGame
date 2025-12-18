@@ -158,9 +158,15 @@ namespace Unity.Game.UI
 
             // 通常チャット処理
             AddMessageToLog(text, true);
+            // 2. ★修正：入力を一時的に無効化する（ロック）
+            inputField.text = "";           // テキストを消す
+            inputField.interactable = false; // ★入力を禁止にする
+            // プレースホルダーを「考え中...」に変えてユーザーに知らせる
+            var placeholder = inputField.placeholder as TextMeshProUGUI;
+            if (placeholder != null) placeholder.text = "AI is thinking...";
             StartCoroutine(CallGeminiSmart(text));
-            inputField.text = "";
-            inputField.ActivateInputField();
+            //inputField.text = "";
+            //inputField.ActivateInputField();
         }
 
         void AddMessageToLog(string text, bool isUser)
@@ -262,6 +268,15 @@ namespace Unity.Game.UI
                     AddMessageToLog(answer, false);
                 }
             }
+            // ★修正：通信が終わったら（成功でも失敗でも）ここを通る
+            // 入力ロックを解除する
+            inputField.interactable = true;
+
+            // プレースホルダーを「Enter text...」に戻す
+            UpdateInputPlaceholder();
+
+            // 再び入力できるようにカーソルを合わせる
+            inputField.ActivateInputField();
         }
 
         // ★ChatManager2.cs からそのまま移植したエスケープ処理
