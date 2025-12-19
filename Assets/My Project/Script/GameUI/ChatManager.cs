@@ -81,7 +81,7 @@ namespace Unity.Game.UI
 #if !UNITY_EDITOR
                 Cursor.lockState = CursorLockMode.None;
 #endif
-                Cursor.visible = true;
+                //Cursor.visible = true;
                 inputField.text = "";
                 inputField.ActivateInputField();
                 UpdateInputPlaceholder();
@@ -92,7 +92,7 @@ namespace Unity.Game.UI
 #if !UNITY_EDITOR
                 Cursor.lockState = CursorLockMode.Locked;
 #endif
-                Cursor.visible = false;
+                //Cursor.visible = false;
             }
         }
 
